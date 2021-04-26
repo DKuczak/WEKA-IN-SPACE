@@ -24,5 +24,9 @@ namespace Projekt
         {
             InitializeComponent();
         }
+        private void Film_MediaEnded(object sender, RoutedEventArgs e)
+        {
+            Grid.Children.Remove(Film);
+        }
     }
 }
