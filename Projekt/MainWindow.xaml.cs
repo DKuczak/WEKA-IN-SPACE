@@ -23,10 +23,29 @@ namespace Projekt
         public MainWindow()
         {
             InitializeComponent();
+            Menu.Visibility = Visibility.Collapsed;
+            Menu2.Visibility = Visibility.Collapsed;
+            Filmik.Visibility = Visibility.Visible;
         }
+
         private void Film_MediaEnded(object sender, RoutedEventArgs e)
         {
-            Grid.Children.Remove(Film);
+            Film.Children.Remove(Filmik);
+            Filmik.Visibility = Visibility.Collapsed;
+            Menu2.Visibility = Visibility.Collapsed;
+            Menu.Visibility = Visibility.Visible;
+        }
+        private void DoPrzodu(object sender, RoutedEventArgs e)
+        {
+            Filmik.Visibility = Visibility.Collapsed;
+            Menu.Visibility = Visibility.Collapsed;
+            Menu2.Visibility = Visibility.Visible;
+        }
+        private void Cofanie(object sender, RoutedEventArgs e)
+        {
+            Filmik.Visibility = Visibility.Collapsed;
+            Menu2.Visibility = Visibility.Collapsed;
+            Menu.Visibility = Visibility.Visible;
         }
     }
 }
