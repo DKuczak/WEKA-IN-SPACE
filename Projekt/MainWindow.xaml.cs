@@ -25,6 +25,8 @@ namespace Projekt
             InitializeComponent();
             Menu.Visibility = Visibility.Collapsed;
             Menu2.Visibility = Visibility.Collapsed;
+            Ustawienia.Visibility = Visibility.Collapsed;
+            Ranking.Visibility = Visibility.Collapsed;
             Filmik.Visibility = Visibility.Visible;
         }
 
@@ -33,19 +35,46 @@ namespace Projekt
             Film.Children.Remove(Filmik);
             Filmik.Visibility = Visibility.Collapsed;
             Menu2.Visibility = Visibility.Collapsed;
+            Ustawienia.Visibility = Visibility.Collapsed;
+            Ranking.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Visible;
         }
         private void DoPrzodu(object sender, RoutedEventArgs e)
         {
             Filmik.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Collapsed;
+            Ustawienia.Visibility = Visibility.Collapsed;
+            Ranking.Visibility = Visibility.Collapsed;
             Menu2.Visibility = Visibility.Visible;
         }
         private void Cofanie(object sender, RoutedEventArgs e)
         {
             Filmik.Visibility = Visibility.Collapsed;
             Menu2.Visibility = Visibility.Collapsed;
+            Ustawienia.Visibility = Visibility.Collapsed;
+            Ranking.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Visible;
+        }
+        private void Wranking(object sender, RoutedEventArgs e)
+        {
+            Filmik.Visibility = Visibility.Collapsed;
+            Menu.Visibility = Visibility.Collapsed;
+            Menu2.Visibility = Visibility.Collapsed;
+            Ustawienia.Visibility = Visibility.Collapsed;
+            Ranking.Visibility = Visibility.Visible;
+        }
+        private void Wustawienia(object sender, RoutedEventArgs e)
+        {
+            Filmik.Visibility = Visibility.Collapsed;
+            Menu.Visibility = Visibility.Collapsed;
+            Menu2.Visibility = Visibility.Collapsed;
+            Ranking.Visibility = Visibility.Collapsed;
+            Ustawienia.Visibility = Visibility.Visible;
+        }
+        private void Render(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow = this;
+            Application.Current.MainWindow.Width = 420;
         }
         private void Wyjscie(object sender, RoutedEventArgs e)
         {

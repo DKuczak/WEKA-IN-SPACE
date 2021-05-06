@@ -13,6 +13,7 @@
     <Grid>
         <Grid Name="Film">
             <MediaElement Source="A:\Dokumenty\studia\2 semestr\obiektówka\projekt\pliki do gry\weka.mpg" Name="Filmik" MediaEnded="Film_MediaEnded"/>
+            <!--<MediaElement Source="A:\Dokumenty\studia\2 semestr\obiektówka\projekt\pliki do gry\sound.mp3" Name="SoundTrack"/>-->
             <Grid.Background>
                 <ImageBrush ImageSource="A:\Dokumenty\studia\2 semestr\obiektówka\projekt\pliki do gry\loading.png" Stretch="Fill">
                 </ImageBrush>
@@ -24,24 +25,47 @@
                 <ImageBrush ImageSource="A:\Dokumenty\studia\2 semestr\obiektówka\projekt\pliki do gry\kosmos.png" Stretch="Fill">
                 </ImageBrush>
             </Grid.Background>
-            <Label Content="WEKA IN SPACE" HorizontalAlignment="Center" Margin="0,28,0,0" VerticalAlignment="Top" Width="1620" Height="35" Foreground="White"/>
-            <Button Margin="150,390,1410,620" Content="Gra dla jednego gracza" />
-            <Button Margin="150,530,1410,480" Content="Gry dla dwóch graczy" Click="DoPrzodu" />
-            <Button Margin="150,670,1410,340" Content="Ranking"/>
-            <Button Margin="150,810,1410,200" Content="Ustawienia"/>
-            <Button Margin="150,950,1410,60" Content="Exit" Click="Wyjscie"/>
+            <Label Content="WEKA IN SPACE" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="568" Height="144" FontSize="80" Foreground="White"/>
+            <Button Margin="150,390,1410,620" Content="Gra dla jednego gracza" Cursor="Hand" Click=""/>
+            <Button Margin="150,530,1410,480" Content="Gry dla dwóch graczy" Cursor="Hand" Click="DoPrzodu" />
+            <Button Margin="150,670,1410,340" Content="Ranking" Cursor="Hand" Click="Wranking"/>
+            <Button Margin="150,810,1410,200" Content="Ustawienia" Cursor="Hand" Click="Render"/>
+            <Button Margin="150,950,1410,60" Content="Wyjście" Cursor="Hand" Click="Wyjscie"/>
         </Grid>
-
         <Grid Name="Menu2">
             <Grid.Background>
                 <ImageBrush ImageSource="A:\Dokumenty\studia\2 semestr\obiektówka\projekt\pliki do gry\kosmos.png" Stretch="Fill">
                 </ImageBrush>
             </Grid.Background>
-            <Button Margin="150,530,1410,480" Content="Gra dla dwóch graczy" />
-            <Button Margin="150,670,1410,340" Content="Rywalizacja" />
-            <Button Margin="150,810,1410,200" Content="Pojedynek" />
-            <Button Margin="150,950,1410,60" Content="Cofnij" Click="Cofanie"/>
+            <Label Content="WEKA IN SPACE" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="568" Height="144" FontSize="80" Foreground="White"/>
+            <Button Margin="150,530,1410,480" Content="Gra dla dwóch graczy" Cursor="Hand" Click=""/>
+            <Button Margin="150,670,1410,340" Content="Rywalizacja" Cursor="Hand" Click=""/>
+            <Button Margin="150,810,1410,200" Content="Pojedynek" Cursor="Hand" Click=""/>
+            <Button Margin="150,950,1410,60" Content="Cofnij" Cursor="Hand" Click="Cofanie"/>
         </Grid>
+        <Grid Name="Ustawienia">
+            <Grid.Background>
+                <ImageBrush ImageSource="A:\Dokumenty\studia\2 semestr\obiektówka\projekt\pliki do gry\kosmos.png" Stretch="Fill">
+                </ImageBrush>
+            </Grid.Background>
+            <Label Content="USTAWIENIA" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="568" Height="144" FontSize="80" Foreground="White"/>
+            <Label Content="Dźwięk" Margin="150,530,1410,480" Foreground="White"/>
+            <Label Content="Efekty specjalne" Margin="150,670,1410,340" Foreground="White"/>
+            <Label Content="Rozdzielczość" Margin="150,810,1410,200" Foreground="White"/>
+            <Button Margin="150,950,1410,60" Content="Cofnij" Cursor="Hand" Click="Cofanie"/>
+        </Grid>
+        <Grid Name="Ranking">
+            <Grid.Background>
+                <ImageBrush ImageSource="A:\Dokumenty\studia\2 semestr\obiektówka\projekt\pliki do gry\kosmos.png" Stretch="Fill">
+                </ImageBrush>
+            </Grid.Background>
+            <Label Content="RANKING" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="568" Height="144" FontSize="80" Foreground="White"/>
+            <Label Content="1. Endriu - 5032856 pkt" Margin="150,530,1410,480" Foreground="White"/>
+            <Label Content="2. MenCzester - 432099 pkt" Margin="150,670,1410,340" Foreground="White"/>
+            <Label Content="3. Janina - 1000 pkt" Margin="150,810,1410,200" Foreground="White"/>
+            <Button Margin="150,950,1410,60" Content="Cofnij" Cursor="Hand" Click="Cofanie"/>
+        </Grid>
+
     </Grid>
 
 </Window>
