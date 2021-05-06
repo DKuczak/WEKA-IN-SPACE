@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="SplashScreen1.png" />
+    <None Remove="materialy\tytul.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <SplashScreen Include="SplashScreen1.png" />
+    <SplashScreen Include="materialy\tytul.png" />
   </ItemGroup>
 
 </Project>

@@ -47,5 +47,9 @@ namespace Projekt
             Menu2.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Visible;
         }
+        private void Wyjscie(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Application.Current.Shutdown();
+        }
     }
 }
