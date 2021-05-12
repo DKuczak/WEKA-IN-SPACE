@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Projekt
 {
@@ -38,10 +39,13 @@ namespace Projekt
             Menu2.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
             Ranking.Visibility = Visibility.Collapsed;
+            Canvas.Visibility = Visibility.Collapsed;
             Filmik.Visibility = Visibility.Visible;
 
+        }
+        private void Rozpocznij() {
             pl1 = new Gracz();
-            pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materiały/Gracz1.png"));
+            pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz1.png"));
             player.Fill = pl1.tekstura;
             czasGry.Tick += GameLoop;
             czasGry.Interval = TimeSpan.FromMilliseconds(10);
@@ -56,7 +60,7 @@ namespace Projekt
                 szybkość = 6,
 
             };
-            p.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materiały/invader1.gif"));
+            p.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/invader1.gif"));
             for (int i = 0; i < p.limit; i++)
             {
                 Canvas.Children.Add(p.StwórzPrzeciwnika("wróg"));
@@ -254,6 +258,7 @@ namespace Projekt
             Menu2.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
             Ranking.Visibility = Visibility.Collapsed;
+            Canvas.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Visible;
         }
         private void DoPrzodu(object sender, RoutedEventArgs e)
@@ -262,6 +267,7 @@ namespace Projekt
             Menu.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
             Ranking.Visibility = Visibility.Collapsed;
+            Canvas.Visibility = Visibility.Collapsed;
             Menu2.Visibility = Visibility.Visible;
         }
         private void Cofanie(object sender, RoutedEventArgs e)
@@ -270,6 +276,7 @@ namespace Projekt
             Menu2.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
             Ranking.Visibility = Visibility.Collapsed;
+            Canvas.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Visible;
         }
         private void Wranking(object sender, RoutedEventArgs e)
@@ -278,6 +285,7 @@ namespace Projekt
             Menu.Visibility = Visibility.Collapsed;
             Menu2.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
+            Canvas.Visibility = Visibility.Collapsed;
             Ranking.Visibility = Visibility.Visible;
         }
         private void Wustawienia(object sender, RoutedEventArgs e)
@@ -286,12 +294,18 @@ namespace Projekt
             Menu.Visibility = Visibility.Collapsed;
             Menu2.Visibility = Visibility.Collapsed;
             Ranking.Visibility = Visibility.Collapsed;
+            Canvas.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Visible;
         }
-        private void Render(object sender, RoutedEventArgs e)
+        private void Gra1(object sender, RoutedEventArgs e)
         {
-            Application.Current.MainWindow = this;
-            Application.Current.MainWindow.Width = 420;
+            Filmik.Visibility = Visibility.Collapsed;
+            Menu.Visibility = Visibility.Collapsed;
+            Menu2.Visibility = Visibility.Collapsed;
+            Ranking.Visibility = Visibility.Collapsed;
+            Ustawienia.Visibility = Visibility.Collapsed;
+            Canvas.Visibility = Visibility.Visible;
+            Rozpocznij();
         }
         private void Wyjscie(object sender, RoutedEventArgs e)
         {

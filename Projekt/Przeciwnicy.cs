@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace Klasy_do_WIS
+namespace Projekt
 {
     class Przeciwnicy : Cechy_wspólne
     {

@@ -7,7 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="materialy\Gracz1.png" />
+    <None Remove="materialy\invader1.gif" />
     <None Remove="materialy\tytul.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="materialy\Gracz1.png" />
+    <Resource Include="materialy\invader1.gif" />
   </ItemGroup>
 
   <ItemGroup>
