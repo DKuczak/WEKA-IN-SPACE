@@ -41,7 +41,7 @@ namespace Projekt
             Filmik.Visibility = Visibility.Visible;
 
             pl1 = new Gracz();
-            pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Tekstury/Gracz1.png"));
+            pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materiały/Gracz1.png"));
             player.Fill = pl1.tekstura;
             czasGry.Tick += GameLoop;
             czasGry.Interval = TimeSpan.FromMilliseconds(10);
@@ -56,7 +56,7 @@ namespace Projekt
                 szybkość = 6,
 
             };
-            p.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/Tekstury/invader1.gif"));
+            p.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materiały/invader1.gif"));
             for (int i = 0; i < p.limit; i++)
             {
                 Canvas.Children.Add(p.StwórzPrzeciwnika("wróg"));
