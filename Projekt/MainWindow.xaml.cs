@@ -20,6 +20,17 @@ namespace Projekt
     /// </summary>
     public partial class MainWindow : Window
     {
+        int Wynik = 0;
+        Random generator = new Random();
+        List<Rectangle> itemsToRemove = new List<Rectangle>();
+        int CzasPocisku = 0;
+        int LimitLotuPocisku = 90;
+        bool gameOver = false;
+
+        DispatcherTimer czasGry = new DispatcherTimer();
+        Gracz pl1;
+        Przeciwnicy p, pr, prz;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -28,6 +39,212 @@ namespace Projekt
             Ustawienia.Visibility = Visibility.Collapsed;
             Ranking.Visibility = Visibility.Collapsed;
             Filmik.Visibility = Visibility.Visible;
+
+            pl1 = new Gracz();
+            pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materiały/Gracz1.png"));
+            player.Fill = pl1.tekstura;
+            czasGry.Tick += GameLoop;
+            czasGry.Interval = TimeSpan.FromMilliseconds(10);
+            czasGry.Start();
+
+            Canvas.Focus();
+            p = new Przeciwnicy
+            {
+                limit = 10,
+                szerokość = 45,
+                wielkość = 60,
+                szybkość = 6,
+
+            };
+            p.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materiały/invader1.gif"));
+            for (int i = 0; i < p.limit; i++)
+            {
+                Canvas.Children.Add(p.StwórzPrzeciwnika("wróg"));
+            }
+            pr = new Przeciwnicy { limit = 10, szerokość = 45, wielkość = 60, szybkość = 10 };
+            prz = new Przeciwnicy();
+
+        }
+        private void GameLoop(object sender, EventArgs e)
+        {
+
+            Wynik++;
+            Rect Hitboxp = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
+            TimerTicks.Content = "Wynik: " + Wynik;
+
+            if (pl1.Lewo == true && Canvas.GetLeft(player) > 0)
+            {
+                Canvas.SetLeft(player, Canvas.GetLeft(player) - 10);
+            }
+            if (pl1.Prawo == true && Canvas.GetLeft(player) + 80 < Application.Current.MainWindow.Width)
+            {
+                Canvas.SetLeft(player, Canvas.GetLeft(player) + 10);
+            }
+            if (pl1.Góra == true && Canvas.GetTop(player) > 0)
+            {
+                Canvas.SetTop(player, Canvas.GetTop(player) - 10);
+            }
+            if (pl1.Dół == true && Canvas.GetTop(player) + 110 < Application.Current.MainWindow.Height)
+            {
+                Canvas.SetTop(player, Canvas.GetTop(player) + 10);
+            }
+
+            List<Rectangle> Przeciwnicy = new List<Rectangle>();
+            foreach (var x in Canvas.Children.OfType<Rectangle>())
+            {
+                if (x is Rectangle && (string)x.Tag == "pocisk")
+                {
+                    Canvas.SetTop(x, Canvas.GetTop(x) - 20);
+
+                    if (Canvas.GetTop(x) < 10)
+                    {
+                        itemsToRemove.Add(x);
+                    }
+                    Rect pocisk = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+
+                    foreach (var y in Canvas.Children.OfType<Rectangle>())
+                    {
+                        string Tag = (string)y.Tag;
+                        if (y is Rectangle && Tag == "wróg")
+                        {
+                            Rect hitboxprz = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
+
+                            if (pocisk.IntersectsWith(hitboxprz))
+                            {
+                                itemsToRemove.Add(x);
+                                itemsToRemove.Add(y);
+                                p.liczba_p--;
+                            }
+                        }
+                    }
+                }
+
+                else if (x is Rectangle && (string)x.Tag == "wróg")
+                {
+                    Przeciwnicy.Add(x);
+                    Canvas.SetLeft(x, Canvas.GetLeft(x) + p.szybkość);
+                    if (Canvas.GetLeft(x) > 1920)
+                    {
+                        Canvas.SetLeft(x, -80);
+                        Canvas.SetTop(x, Canvas.GetTop(x) + (x.Height + 10));
+                    }
+                    Rect hitboxprz = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    if (Hitboxp.IntersectsWith(hitboxprz))
+                    {
+                        KoniecGry("Nie żyjesz! ");
+                    }
+                }
+
+
+                else if (x is Rectangle && (string)x.Tag == "ppocisk")
+                {
+                    Canvas.SetTop(x, Canvas.GetTop(x) + 10);
+
+                    if (Canvas.GetTop(x) > 1080)
+                    {
+                        itemsToRemove.Add(x);
+                    }
+                    Rect ppocisk = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    if (Hitboxp.IntersectsWith(ppocisk))
+                    {
+                        KoniecGry("Nie żyjesz! ");
+                    }
+                }
+            }
+            foreach (var x in Przeciwnicy)
+            {
+                if (generator.Next(0, 100) > 98)
+                {
+                    PociskPrzeciwnika(Canvas.GetLeft(x), Canvas.GetTop(x));
+                }
+            }
+            foreach (Rectangle i in itemsToRemove)
+            {
+                Canvas.Children.Remove(i);
+            }
+
+        }
+
+        private void KeyIsDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Left)
+            {
+                pl1.Lewo = true;
+            }
+            if (e.Key == Key.Right)
+            {
+                pl1.Prawo = true;
+            }
+            if (e.Key == Key.Up)
+            {
+                pl1.Góra = true;
+            }
+            if (e.Key == Key.Down)
+            {
+                pl1.Dół = true;
+            }
+            if (e.Key == Key.Space)
+            {
+                Rectangle Pocisk = new Rectangle
+                {
+                    Tag = "pocisk",
+                    Height = 20,
+                    Width = 5,
+                    Fill = Brushes.Blue,
+                    Stroke = Brushes.White
+                };
+
+                Canvas.SetTop(Pocisk, Canvas.GetTop(player) - Pocisk.Height);
+                Canvas.SetLeft(Pocisk, Canvas.GetLeft(player) + player.Width / 2);
+
+                Canvas.Children.Add(Pocisk);
+            }
+            if (e.Key == Key.Enter && gameOver == true)
+            {
+                System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+                Application.Current.Shutdown();
+            }
+        }
+        private void KeyIsUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Left)
+            {
+                pl1.Lewo = false;
+            }
+            if (e.Key == Key.Right)
+            {
+                pl1.Prawo = false;
+            }
+            if (e.Key == Key.Up)
+            {
+                pl1.Góra = false;
+            }
+            if (e.Key == Key.Down)
+            {
+                pl1.Dół = false;
+            }
+        }
+        private void PociskPrzeciwnika(double x, double y)
+        {
+            Rectangle przeciwnikaPocisk = new Rectangle
+            {
+                Tag = "ppocisk",
+                Height = 40,
+                Width = 15,
+                Fill = Brushes.Red,
+                Stroke = Brushes.Yellow
+            };
+
+            Canvas.SetTop(przeciwnikaPocisk, y);
+            Canvas.SetLeft(przeciwnikaPocisk, x);
+
+            Canvas.Children.Add(przeciwnikaPocisk);
+        }
+        private void KoniecGry(string wiad)
+        {
+            gameOver = true;
+            czasGry.Stop();
+            uded.Content += " " + wiad + " Wciśnij enter do dalszej gry";
         }
 
         private void Film_MediaEnded(object sender, RoutedEventArgs e)
