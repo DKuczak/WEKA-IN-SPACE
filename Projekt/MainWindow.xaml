@@ -26,7 +26,7 @@
                 </ImageBrush>
             </Grid.Background>
             <Label Content="WEKA IN SPACE" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="568" Height="144" FontSize="80" Foreground="White"/>
-            <Button Margin="150,390,1410,620" Content="Gra dla jednego gracza" Cursor="Hand" Click=""/>
+            <Button Margin="150,390,1410,620" Content="Gra dla jednego gracza" Cursor="Hand"/>
             <Button Margin="150,530,1410,480" Content="Gry dla dwóch graczy" Cursor="Hand" Click="DoPrzodu" />
             <Button Margin="150,670,1410,340" Content="Ranking" Cursor="Hand" Click="Wranking"/>
             <Button Margin="150,810,1410,200" Content="Ustawienia" Cursor="Hand" Click="Render"/>
@@ -38,9 +38,9 @@
                 </ImageBrush>
             </Grid.Background>
             <Label Content="WEKA IN SPACE" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="568" Height="144" FontSize="80" Foreground="White"/>
-            <Button Margin="150,530,1410,480" Content="Gra dla dwóch graczy" Cursor="Hand" Click=""/>
-            <Button Margin="150,670,1410,340" Content="Rywalizacja" Cursor="Hand" Click=""/>
-            <Button Margin="150,810,1410,200" Content="Pojedynek" Cursor="Hand" Click=""/>
+            <Button Margin="150,530,1410,480" Content="Gra dla dwóch graczy" Cursor="Hand"/>
+            <Button Margin="150,670,1410,340" Content="Rywalizacja" Cursor="Hand"/>
+            <Button Margin="150,810,1410,200" Content="Pojedynek" Cursor="Hand"/>
             <Button Margin="150,950,1410,60" Content="Cofnij" Cursor="Hand" Click="Cofanie"/>
         </Grid>
         <Grid Name="Ustawienia">
