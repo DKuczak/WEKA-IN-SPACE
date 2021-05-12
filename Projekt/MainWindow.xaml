@@ -15,14 +15,14 @@
             <MediaElement Source="A:\Dokumenty\studia\2 semestr\obiektówka\projekt\pliki do gry\weka.mpg" Name="Filmik" MediaEnded="Film_MediaEnded"/>
             <!--<MediaElement Source="A:\Dokumenty\studia\2 semestr\obiektówka\projekt\pliki do gry\sound.mp3" Name="SoundTrack"/>-->
             <Grid.Background>
-                <ImageBrush ImageSource="A:\Dokumenty\studia\2 semestr\obiektówka\projekt\pliki do gry\loading.png" Stretch="Fill">
+                <ImageBrush ImageSource="materialy\loading.png" Stretch="Fill">
                 </ImageBrush>
             </Grid.Background>
         </Grid>
 
         <Grid Name="Menu">
             <Grid.Background>
-                <ImageBrush ImageSource="A:\Dokumenty\studia\2 semestr\obiektówka\projekt\pliki do gry\kosmos.png" Stretch="Fill">
+                <ImageBrush ImageSource="materialy\kosmos.png" Stretch="Fill">
                 </ImageBrush>
             </Grid.Background>
             <Label Content="WEKA IN SPACE" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="568" Height="144" FontSize="80" Foreground="White"/>
@@ -35,7 +35,7 @@
         
         <Grid Name="Menu2">
             <Grid.Background>
-                <ImageBrush ImageSource="A:\Dokumenty\studia\2 semestr\obiektówka\projekt\pliki do gry\kosmos.png" Stretch="Fill">
+                <ImageBrush ImageSource="materialy\kosmos.png" Stretch="Fill">
                 </ImageBrush>
             </Grid.Background>
             <Label Content="WEKA IN SPACE" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="568" Height="144" FontSize="80" Foreground="White"/>
@@ -53,7 +53,7 @@
         
         <Grid Name="Ustawienia">
             <Grid.Background>
-                <ImageBrush ImageSource="A:\Dokumenty\studia\2 semestr\obiektówka\projekt\pliki do gry\kosmos.png" Stretch="Fill">
+                <ImageBrush ImageSource="materialy\kosmos.png" Stretch="Fill">
                 </ImageBrush>
             </Grid.Background>
             <Label Content="USTAWIENIA" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="568" Height="144" FontSize="80" Foreground="White"/>
@@ -65,7 +65,7 @@
         
         <Grid Name="Ranking">
             <Grid.Background>
-                <ImageBrush ImageSource="A:\Dokumenty\studia\2 semestr\obiektówka\projekt\pliki do gry\kosmos.png" Stretch="Fill">
+                <ImageBrush ImageSource="materialy\kosmos.png" Stretch="Fill">
                 </ImageBrush>
             </Grid.Background>
             <Label Content="RANKING" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="568" Height="144" FontSize="80" Foreground="White"/>
