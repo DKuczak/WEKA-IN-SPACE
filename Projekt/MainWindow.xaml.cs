@@ -22,6 +22,7 @@ namespace Projekt
     public partial class MainWindow : Window
     {
         int Wynik = 0;
+        int liczbap = 0;
         Random generator = new Random();
         List<Rectangle> itemsToRemove = new List<Rectangle>();
         int CzasPocisku = 0;
@@ -52,25 +53,35 @@ namespace Projekt
             czasGry.Start();
 
             Canvas.Focus();
-            p = new Przeciwnicy
-            {
-                limit = 10,
-                szerokość = 45,
-                wielkość = 60,
-                szybkość = 6,
-
-            };
-            p.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/invader1.gif"));
-            for (int i = 0; i < p.limit; i++)
-            {
-                Canvas.Children.Add(p.StwórzPrzeciwnika("wróg"));
-            }
+            wygeneruj1();
             pr = new Przeciwnicy { limit = 10, szerokość = 45, wielkość = 60, szybkość = 10 };
             prz = new Przeciwnicy();
 
         }
+        private void wygeneruj1()
+        {
+            p = new Przeciwnicy
+            {
+                limit = 10,
+                szerokość = 75,
+                wielkość = 75,
+                szybkość = 6,
+
+            };
+            p.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/przeciwnik1.png"));
+            for (int i = 0; i < p.limit; i++)
+            {
+                Canvas.Children.Add(p.StwórzPrzeciwnika("wróg"));
+
+            }
+            liczbap += p.limit;
+        }
         private void GameLoop(object sender, EventArgs e)
         {
+            if (liczbap == 0)
+            {
+                wygeneruj1();
+            }
 
             Wynik++;
             Rect Hitboxp = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
@@ -117,7 +128,7 @@ namespace Projekt
                             {
                                 itemsToRemove.Add(x);
                                 itemsToRemove.Add(y);
-                                p.liczba_p--;
+                                liczbap--;
                             }
                         }
                     }
@@ -187,7 +198,7 @@ namespace Projekt
             {
                 pl1.Dół = true;
             }
-            if (e.Key == Key.Space)
+            if (e.Key == Key.Space && !e.IsRepeat)
             {
                 Rectangle Pocisk = new Rectangle
                 {
