@@ -45,7 +45,8 @@
         </Grid>
         
 		<Canvas Name="Canvas" Focusable="True" Background="Black" KeyDown="KeyIsDown" KeyUp="KeyIsUp" x:FieldModifier="public">
-            <Rectangle x:Name="player" Fill="White" Height="100" Width="60" Canvas.Left="915" Canvas.Top="972" RenderTransformOrigin="0.483,0.481"  />
+            <!-- -->
+                <Rectangle x:Name="player" Fill="White" Height="100" Width="60" Canvas.Left="915" Canvas.Top="972" RenderTransformOrigin="0.483,0.481"  />
             <Label Foreground="White" Name="TimerTicks" Panel.ZIndex="100" FontSize="50" FontWeight="ExtraBold" Canvas.Left="39" Canvas.Top="38" Height="79" FontFamily="Comic Sans MS" Width="473">Number of ticks:</Label>
             <Label Name="uded" Foreground="White" FontSize="60" Panel.ZIndex="100" FontWeight="ExtraBold" Height="218" Width="1402" Canvas.Left="228" Canvas.Top="331"  ></Label>
         </Canvas>
