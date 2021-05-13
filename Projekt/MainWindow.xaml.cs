@@ -29,6 +29,7 @@ namespace Projekt
         int LimitLotuPocisku = 90;
         bool gameOver = false;
 
+        ImageBrush pocisk = new ImageBrush();
         DispatcherTimer czasGry = new DispatcherTimer();
         Gracz pl1;
         Przeciwnicy p, pr, prz;
@@ -53,13 +54,8 @@ namespace Projekt
             czasGry.Start();
 
             Canvas.Focus();
-            wygeneruj1();
             pr = new Przeciwnicy { limit = 10, szerokość = 45, wielkość = 60, szybkość = 10 };
             prz = new Przeciwnicy();
-
-        }
-        private void wygeneruj1()
-        {
             p = new Przeciwnicy
             {
                 limit = 10,
@@ -68,6 +64,11 @@ namespace Projekt
                 szybkość = 6,
 
             };
+            wygeneruj1();
+
+        }
+        private void wygeneruj1()
+        {
             p.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/przeciwnik1.png"));
             for (int i = 0; i < p.limit; i++)
             {
@@ -75,6 +76,7 @@ namespace Projekt
 
             }
             liczbap += p.limit;
+            p.limit++;
         }
         private void GameLoop(object sender, EventArgs e)
         {
@@ -217,6 +219,10 @@ namespace Projekt
             if (e.Key == Key.Enter && gameOver == true)
             {
                 System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+                Application.Current.Shutdown();
+            }
+            if (e.Key == Key.Escape && gameOver == true)
+            {
                 Application.Current.Shutdown();
             }
         }

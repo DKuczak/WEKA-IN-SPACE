@@ -19,7 +19,6 @@ namespace Projekt
     class Przeciwnicy : Cechy_wspólne
     {
         public int limit;
-        public int liczba_p;
             int left = 10;
 
         public Rectangle StwórzPrzeciwnika(string nazwa)
@@ -33,7 +32,7 @@ namespace Projekt
                 };
                 Canvas.SetTop(newEnemy, 10);
                 Canvas.SetLeft(newEnemy, left);
-                left -= 60;
+                left -= 80;
 
 
             return newEnemy;

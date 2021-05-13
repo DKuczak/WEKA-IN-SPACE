@@ -12,8 +12,7 @@
 
     <Grid>
         <Grid Name="Film">
-            <MediaElement Source="A:\Dokumenty\studia\2 semestr\obiektówka\projekt\pliki do gry\weka.mpg" Name="Filmik" MediaEnded="Film_MediaEnded"/>
-            <!--<MediaElement Source="A:\Dokumenty\studia\2 semestr\obiektówka\projekt\pliki do gry\sound.mp3" Name="SoundTrack"/>-->
+            <MediaElement Source="materialy/WekaInSpace.mpg" Name="Filmik" MediaEnded="Film_MediaEnded"/>
             <Grid.Background>
                 <ImageBrush ImageSource="materialy\loading.png" Stretch="Fill">
                 </ImageBrush>

@@ -13,6 +13,13 @@
     <None Remove="materialy\loading.png" />
     <None Remove="materialy\przeciwnik1.png" />
     <None Remove="materialy\tytul.png" />
+    <None Remove="materialy\WekaInSpace.mpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="materialy\WekaInSpace.mpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
