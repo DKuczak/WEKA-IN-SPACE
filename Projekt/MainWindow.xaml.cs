@@ -37,6 +37,7 @@ namespace Projekt
         public MainWindow()
         {
             InitializeComponent();
+            
             Menu.Visibility = Visibility.Collapsed;
             Menu2.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
@@ -218,8 +219,30 @@ namespace Projekt
             }
             if (e.Key == Key.Enter && gameOver == true)
             {
-                System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
-                Application.Current.Shutdown();
+                
+                    uded.Visibility = Visibility.Hidden;
+                    gameOver = false;
+                    foreach (var x in Canvas.Children.OfType<Rectangle>())
+                    {
+                        if (x is Rectangle && (string)x.Tag == "pocisk" || x is Rectangle && (string)x.Tag == "wróg" || x is Rectangle && (string)x.Tag == "ppocisk")
+                        {
+                            itemsToRemove.Add(x);
+                        }
+                    }
+
+                    Canvas.SetLeft(player, 915);
+                    Canvas.SetTop(player, 972);
+                    Wynik = 0;
+                    czasGry.Tick -= GameLoop;
+                    czasGry.Start();
+
+
+
+
+
+                    Canvas.Visibility = Visibility.Collapsed;
+                    Menu.Visibility = Visibility.Visible;
+
             }
             if (e.Key == Key.Escape && gameOver == true)
             {
@@ -265,7 +288,8 @@ namespace Projekt
         {
             gameOver = true;
             czasGry.Stop();
-            uded.Content += " " + wiad + " Wciśnij enter do dalszej gry";
+            uded.Content = " " + wiad + " Wciśnij enter do dalszej gry lub ESC aby wyjść!";
+            uded.Visibility = Visibility.Visible;
         }
 
         private void Film_MediaEnded(object sender, RoutedEventArgs e)
@@ -314,6 +338,21 @@ namespace Projekt
             Canvas.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Visible;
         }
+
+        private void Skip(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                Film.Children.Remove(Filmik);
+                Filmik.Visibility = Visibility.Collapsed;
+                Menu2.Visibility = Visibility.Collapsed;
+                Ustawienia.Visibility = Visibility.Collapsed;
+                Ranking.Visibility = Visibility.Collapsed;
+                Canvas.Visibility = Visibility.Collapsed;
+                Menu.Visibility = Visibility.Visible;
+            }
+        }
+
         private void Gra1(object sender, RoutedEventArgs e)
         {
             Filmik.Visibility = Visibility.Collapsed;
