@@ -12,9 +12,9 @@
 
     <Grid>
         <Grid Name="Film">
-            <MediaElement Source="materialy/WekaInSpace.mpg" Name="Filmik" MediaEnded="Film_MediaEnded"/>
-            
-                <Grid.Background>
+            <MediaElement Source="materialy/WekaInSpace.mpg" Name="Filmik" MediaEnded="Film_MediaEnded" />
+            <Button Margin="0,1010,1715,0" Content="Skip" Cursor="Hand" Click="Skip" Background="{x:Null}" Foreground="White" FontWeight="Bold" BorderBrush="#FF707070"/>
+            <Grid.Background>
                 <ImageBrush ImageSource="materialy\loading.png" Stretch="Fill">
                 </ImageBrush>
             </Grid.Background>
@@ -44,10 +44,9 @@
             <Button Margin="150,810,1410,200" Content="Pojedynek" Cursor="Hand"/>
             <Button Margin="150,950,1410,60" Content="Cofnij" Cursor="Hand" Click="Cofanie"/>
         </Grid>
-        
-		<Canvas Name="Canvas" Focusable="True" Background="Black" KeyDown="KeyIsDown" KeyUp="KeyIsUp" x:FieldModifier="public">
-            <!-- -->
-                <Rectangle x:Name="player" Fill="White" Height="100" Width="60" Canvas.Left="915" Canvas.Top="972" RenderTransformOrigin="0.483,0.481"  />
+
+        <Canvas Name="Canvas" Focusable="True" Background="Black" KeyDown="KeyIsDown" KeyUp="KeyIsUp" x:FieldModifier="public">
+            <Rectangle x:Name="player" Fill="White" Height="100" Width="60" Canvas.Left="915" Canvas.Top="972" RenderTransformOrigin="0.483,0.481"  />
             <Label Foreground="White" Name="TimerTicks" Panel.ZIndex="100" FontSize="50" FontWeight="ExtraBold" Canvas.Left="39" Canvas.Top="38" Height="79" FontFamily="Comic Sans MS" Width="473">Number of ticks:</Label>
             <Label Name="uded" Foreground="White" FontSize="40" Panel.ZIndex="100" Visibility="Hidden" FontWeight="ExtraBold" Canvas.Top="300" Canvas.Left="370"  ></Label>
         </Canvas>
@@ -63,7 +62,7 @@
             <Label Content="Rozdzielczość" Margin="150,810,1410,200" Foreground="White"/>
             <Button Margin="150,950,1410,60" Content="Cofnij" Cursor="Hand" Click="Cofanie"/>
         </Grid>
-        
+
         <Grid Name="Ranking">
             <Grid.Background>
                 <ImageBrush ImageSource="materialy\kosmos.png" Stretch="Fill">
