@@ -33,7 +33,7 @@ namespace Projekt
         DispatcherTimer czasGry = new DispatcherTimer();
         Gracz pl1;
         Przeciwnicy p, pr, prz;
-        Pocisk pocisk1;
+        Pocisk pocisk1, pocisk2;
 
         public MainWindow()
         {
@@ -52,6 +52,7 @@ namespace Projekt
             pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz1.png"));
             player.Fill = pl1.tekstura;
             pocisk1 = new Pocisk();
+            pocisk2 = new Pocisk();
             czasGry.Tick += GameLoop;
             czasGry.Interval = TimeSpan.FromMilliseconds(10);
             czasGry.Start();
@@ -214,19 +215,7 @@ namespace Projekt
             }
             if (e.Key == Key.Space && !e.IsRepeat)
             {
-                Rectangle Pocisk = new Rectangle
-                {
-                    Tag = "pocisk",
-                    Height = 20,
-                    Width = 5,
-                    Fill = Brushes.Blue,
-                    Stroke = Brushes.White
-                };
-
-                Canvas.SetTop(Pocisk, Canvas.GetTop(player) - Pocisk.Height);
-                Canvas.SetLeft(Pocisk, Canvas.GetLeft(player) + player.Width / 2);
-
-                Canvas.Children.Add(Pocisk);
+                Canvas.Children.Add(pocisk2.PociskGracza(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width));
             }
             if (e.Key == Key.Enter && gameOver == true)
             {
