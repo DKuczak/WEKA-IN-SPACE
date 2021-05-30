@@ -34,6 +34,7 @@ namespace Projekt
         Gracz pl1;
         Przeciwnicy p, pr, prz;
         Pocisk pocisk1;
+        Przedmiot apteczka;
 
         public MainWindow()
         {
@@ -52,6 +53,7 @@ namespace Projekt
             pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz1.png"));
             player.Fill = pl1.tekstura;
             pocisk1 = new Pocisk();
+            apteczka = new Przedmiot();
             czasGry.Tick += GameLoop;
             czasGry.Interval = TimeSpan.FromMilliseconds(10);
             czasGry.Start();
@@ -114,6 +116,7 @@ namespace Projekt
             }
 
             List<Rectangle> Przeciwnicy = new List<Rectangle>();
+            
             foreach (var x in Canvas.Children.OfType<Rectangle>())
             {
                 if (x is Rectangle && (string)x.Tag == "pocisk")
@@ -139,6 +142,7 @@ namespace Projekt
                                 itemsToRemove.Add(y);
                                 liczbap--;
                                 Wynik += p.wartość;
+                                
                             }
                         }
                     }
@@ -179,6 +183,20 @@ namespace Projekt
                         else pl1.hp -= 1;
                     }
                 }
+                else if (x is Rectangle && (string)x.Tag == "przedmiot")
+                {
+                    Canvas.SetTop(x, Canvas.GetTop(x) + 10);
+
+                    if (Canvas.GetTop(x) > 1080)
+                    {
+                        itemsToRemove.Add(x);
+                    }
+                    Rect przedmiot = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    if (Hitboxp.IntersectsWith(przedmiot))
+                    {
+                        pl1.hp += 2;
+                    }
+                }
             }
             foreach (var x in Przeciwnicy)
             {
@@ -187,11 +205,16 @@ namespace Projekt
                     Canvas.Children.Add(pocisk1.PociskPrzeciwnika(Canvas.GetLeft(x), Canvas.GetTop(x)));
                 }
             }
+            if (generator.Next(0, 100) > 99)
+                                {
+                                    Canvas.Children.Add(apteczka.przedmiot(Canvas.GetLeft(player), Canvas.GetTop(player) - 800));
+                                }
             foreach (Rectangle i in itemsToRemove)
             {
                 Canvas.Children.Remove(i);
             }
 
+            
         }
 
         private void KeyIsDown(object sender, KeyEventArgs e)
