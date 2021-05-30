@@ -33,6 +33,7 @@ namespace Projekt
         DispatcherTimer czasGry = new DispatcherTimer();
         Gracz pl1;
         Przeciwnicy p, pr, prz;
+        Pocisk pocisk1;
 
         public MainWindow()
         {
@@ -50,6 +51,7 @@ namespace Projekt
             pl1 = new Gracz();
             pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz1.png"));
             player.Fill = pl1.tekstura;
+            pocisk1 = new Pocisk();
             czasGry.Tick += GameLoop;
             czasGry.Interval = TimeSpan.FromMilliseconds(10);
             czasGry.Start();
@@ -67,6 +69,9 @@ namespace Projekt
             };
             wygeneruj1();
 
+        }
+        private void generator_pocisku() {
+            Canvas.Children.Add(pocisk1.PociskPrzeciwnika(0,0));
         }
         private void wygeneruj1()
         {
@@ -173,7 +178,7 @@ namespace Projekt
             {
                 if (generator.Next(0, 100) > 98)
                 {
-                    PociskPrzeciwnika(Canvas.GetLeft(x), Canvas.GetTop(x));
+                    Canvas.Children.Add(pocisk1.PociskPrzeciwnika(Canvas.GetLeft(x), Canvas.GetTop(x)));
                 }
             }
             foreach (Rectangle i in itemsToRemove)
@@ -236,10 +241,6 @@ namespace Projekt
                     czasGry.Tick -= GameLoop;
                     czasGry.Start();
 
-
-
-
-
                     Canvas.Visibility = Visibility.Collapsed;
                     Menu.Visibility = Visibility.Visible;
 
@@ -267,22 +268,6 @@ namespace Projekt
             {
                 pl1.Dół = false;
             }
-        }
-        private void PociskPrzeciwnika(double x, double y)
-        {
-            Rectangle przeciwnikaPocisk = new Rectangle
-            {
-                Tag = "ppocisk",
-                Height = 40,
-                Width = 15,
-                Fill = Brushes.Red,
-                Stroke = Brushes.Yellow
-            };
-
-            Canvas.SetTop(przeciwnikaPocisk, y);
-            Canvas.SetLeft(przeciwnikaPocisk, x);
-
-            Canvas.Children.Add(przeciwnikaPocisk);
         }
         private void KoniecGry(string wiad)
         {
