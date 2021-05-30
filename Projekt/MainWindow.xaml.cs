@@ -324,17 +324,6 @@ namespace Projekt
             Ustawienia.Visibility = Visibility.Visible;
         }
 
-        private void Skip(object sender, RoutedEventArgs e)
-        {
-                Film.Children.Remove(Filmik);
-                Filmik.Visibility = Visibility.Collapsed;
-                Menu2.Visibility = Visibility.Collapsed;
-                Ustawienia.Visibility = Visibility.Collapsed;
-                Ranking.Visibility = Visibility.Collapsed;
-                Canvas.Visibility = Visibility.Collapsed;
-                Menu.Visibility = Visibility.Visible;
-        }
-
         private void Gra1(object sender, RoutedEventArgs e)
         {
             Filmik.Visibility = Visibility.Collapsed;

@@ -13,7 +13,7 @@
     <Grid>
         <Grid Name="Film">
             <MediaElement Source="materialy/WekaInSpace.mpg" Name="Filmik" MediaEnded="Film_MediaEnded" />
-            <Button Margin="0,1010,1715,0" Content="Skip" Cursor="Hand" Click="Skip" Background="{x:Null}" Foreground="White" FontWeight="Bold" BorderBrush="#FF707070"/>
+            <Button Margin="0,1010,1715,0" Content="Skip" Cursor="Hand" Click="Film_MediaEnded" Background="{x:Null}" Foreground="White" FontWeight="Bold" BorderBrush="#FF707070" Focusable="False"/>
             <Grid.Background>
                 <ImageBrush ImageSource="materialy\loading.png" Stretch="Fill">
                 </ImageBrush>
