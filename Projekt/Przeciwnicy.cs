@@ -20,6 +20,7 @@ namespace Projekt
     {
         public int limit;
             int left = 10;
+        public int wartość;
 
         public Rectangle StwórzPrzeciwnika(string nazwa)
         {
