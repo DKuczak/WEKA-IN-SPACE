@@ -48,7 +48,7 @@ namespace Projekt
 
         }
         private void Rozpocznij() {
-            pl1 = new Gracz();
+            pl1 = new Gracz { hp=100 };
             pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz1.png"));
             player.Fill = pl1.tekstura;
             pocisk1 = new Pocisk();
@@ -57,14 +57,15 @@ namespace Projekt
             czasGry.Start();
 
             Canvas.Focus();
-            pr = new Przeciwnicy { limit = 10, szerokość = 45, wielkość = 60, szybkość = 10 };
+            pr = new Przeciwnicy { limit = 1, szerokość = 45, wielkość = 60, szybkość = 10 };
             prz = new Przeciwnicy();
             p = new Przeciwnicy
             {
-                limit = 10,
+                limit = 5,
                 szerokość = 75,
                 wielkość = 75,
                 szybkość = 6,
+                wartość = 100
 
             };
             wygeneruj1();
@@ -137,6 +138,7 @@ namespace Projekt
                                 itemsToRemove.Add(x);
                                 itemsToRemove.Add(y);
                                 liczbap--;
+                                Wynik += p.wartość;
                             }
                         }
                     }
@@ -154,7 +156,9 @@ namespace Projekt
                     Rect hitboxprz = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (Hitboxp.IntersectsWith(hitboxprz))
                     {
-                        KoniecGry("Nie żyjesz! ");
+                        if (pl1.hp <= 0)
+                            KoniecGry("Nie żyjesz! ");
+                        else pl1.hp -= 10;
                     }
                 }
 
@@ -170,7 +174,9 @@ namespace Projekt
                     Rect ppocisk = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (Hitboxp.IntersectsWith(ppocisk))
                     {
-                        KoniecGry("Nie żyjesz! ");
+                        if (pl1.hp <= 0)
+                            KoniecGry("Nie żyjesz! ");
+                        else pl1.hp -= 1;
                     }
                 }
             }
