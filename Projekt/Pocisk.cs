@@ -34,5 +34,21 @@ namespace Projekt
 
             return (przeciwnikaPocisk);
         }
+        public Rectangle PociskGracza(double x, double y, double w)
+        {
+            Rectangle Pocisk = new Rectangle
+            {
+                Tag = "pocisk",
+                Height = 20,
+                Width = 5,
+                Fill = Brushes.Blue,
+                Stroke = Brushes.White
+            };
+
+            Canvas.SetTop(Pocisk, y - Pocisk.Height);
+            Canvas.SetLeft(Pocisk, x + w / 2);
+
+            return (Pocisk);
+        }
     }
 }
