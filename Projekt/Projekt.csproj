@@ -7,11 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="materialy\apteczka.png" />
+    <None Remove="materialy\boss.png" />
     <None Remove="materialy\Gracz1.png" />
+    <None Remove="materialy\Gracz2.png" />
     <None Remove="materialy\invader1.gif" />
     <None Remove="materialy\kosmos.png" />
     <None Remove="materialy\loading.png" />
     <None Remove="materialy\przeciwnik1.png" />
+    <None Remove="materialy\przeciwnik2.png" />
+    <None Remove="materialy\przeciwnik3.png" />
+    <None Remove="materialy\strzal_gracza.png" />
+    <None Remove="materialy\strzal_przeciwnika.png" />
     <None Remove="materialy\tytul.png" />
     <None Remove="materialy\WekaInSpace.mpg" />
   </ItemGroup>
@@ -23,11 +30,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="materialy\apteczka.png" />
+    <Resource Include="materialy\boss.png" />
     <Resource Include="materialy\Gracz1.png" />
-    <Resource Include="materialy\invader1.gif" />
+    <Resource Include="materialy\Gracz2.png" />
     <Resource Include="materialy\kosmos.png" />
     <Resource Include="materialy\loading.png" />
     <Resource Include="materialy\przeciwnik1.png" />
+    <Resource Include="materialy\przeciwnik2.png" />
+    <Resource Include="materialy\przeciwnik3.png" />
+    <Resource Include="materialy\strzal_gracza.png" />
+    <Resource Include="materialy\strzal_przeciwnika.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -20,6 +20,7 @@ namespace Projekt
     {
         int obrażenia;
         int szybkość_pocisku;
+        public ImageBrush tekstura = new ImageBrush();
         public Rectangle PociskPrzeciwnika(double x, double y)
         {
             Rectangle przeciwnikaPocisk = new Rectangle
@@ -27,8 +28,7 @@ namespace Projekt
                 Tag = "ppocisk",
                 Height = 40,
                 Width = 15,
-                Fill = Brushes.Red,
-                Stroke = Brushes.Yellow
+                Fill = tekstura
             };
 
             Canvas.SetTop(przeciwnikaPocisk, y);
@@ -43,8 +43,7 @@ namespace Projekt
                 Tag = "pocisk",
                 Height = 20,
                 Width = 5,
-                Fill = Brushes.Blue,
-                Stroke = Brushes.White
+                Fill = tekstura
             };
 
             Canvas.SetTop(Pocisk, y - Pocisk.Height);

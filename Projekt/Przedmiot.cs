@@ -18,6 +18,7 @@ namespace Projekt
 {
     class Przedmiot
     {
+        public ImageBrush tekstura = new ImageBrush();
         public Rectangle przedmiot(double x, double y)
         {
             Rectangle przedmiot = new Rectangle
@@ -25,8 +26,7 @@ namespace Projekt
                 Tag = "przedmiot",
                 Height = 40,
                 Width = 15,
-                Fill = Brushes.White,
-                Stroke = Brushes.Green
+                Fill = tekstura
             };
 
             Canvas.SetTop(przedmiot, y);
