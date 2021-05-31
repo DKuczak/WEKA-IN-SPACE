@@ -18,5 +18,26 @@ namespace Projekt
         protected int szybkość;
         public int hp;
         public int getspeed() { return szybkość; }
+        public Rectangle Ruch_Lewo(Rectangle x) 
+        {
+            Canvas.SetLeft(x, Canvas.GetLeft(x) - 10); 
+            return x; 
+        }
+        public Rectangle Ruch_Prawo(Rectangle x)
+        {
+            Canvas.SetLeft(x, Canvas.GetLeft(x) + 10);
+            return x;
+        }
+        public Rectangle Ruch_Góra(Rectangle x)
+        {
+            Canvas.SetTop(x, Canvas.GetTop(x) - 10);
+            return x;
+        }
+        public Rectangle Ruch_Dół(Rectangle x)
+        {
+            Canvas.SetTop(x, Canvas.GetTop(x) + 10);
+            return x;
+        }
+
     }
 }

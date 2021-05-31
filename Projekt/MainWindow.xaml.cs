@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.IO;
+
 
 namespace Projekt
 {
@@ -21,7 +23,8 @@ namespace Projekt
     /// </summary>
     public partial class MainWindow : Window
     {
-        int Wynik = 0;
+        double Wynik = 0;
+        double[] Wyniki= new double [5];
         int liczbap = 0;
         Random generator = new Random();
         List<Rectangle> itemsToRemove = new List<Rectangle>();
@@ -86,22 +89,24 @@ namespace Projekt
             Rect Hitboxp = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
             TimerTicks.Content = "Wynik: " + Wynik;
             Życie.Content = "Życie: " + pl1.hp;
+            Rank.Content = "Ranking: " + "\n" + Wyniki[0] + "\n" + Wyniki[1] + "\n" + Wyniki[2] + "\n" + Wyniki[3] + "\n" + Wyniki[4];
+
 
             if (pl1.Lewo == true && Canvas.GetLeft(player) > 0)
             {
-                Canvas.SetLeft(player, Canvas.GetLeft(player) - 10);
+                pl1.Ruch_Lewo(player);
             }
             if (pl1.Prawo == true && Canvas.GetLeft(player) + 80 < Application.Current.MainWindow.Width)
             {
-                Canvas.SetLeft(player, Canvas.GetLeft(player) + 10);
+                pl1.Ruch_Prawo(player);
             }
             if (pl1.Góra == true && Canvas.GetTop(player) > 0)
             {
-                Canvas.SetTop(player, Canvas.GetTop(player) - 10);
+                pl1.Ruch_Góra(player);
             }
             if (pl1.Dół == true && Canvas.GetTop(player) + 110 < Application.Current.MainWindow.Height)
             {
-                Canvas.SetTop(player, Canvas.GetTop(player) + 10);
+                pl1.Ruch_Dół(player);
             }
 
             List<Rectangle> Przeciwnicy = new List<Rectangle>();
@@ -183,7 +188,8 @@ namespace Projekt
                     Rect przedmiot = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (Hitboxp.IntersectsWith(przedmiot))
                     {
-                        pl1.hp += 2;
+                        if (pl1.hp < 100)
+                            pl1.hp += 2;
                     }
                 }
             }
@@ -280,6 +286,37 @@ namespace Projekt
             gameOver = true;
             czasGry.Stop();
             uded.Content = " " + wiad + " Wciśnij enter do dalszej gry lub ESC aby wyjść!";
+            if (Wyniki[4]<Wynik)
+            {
+                Wyniki[4] = Wynik;
+            }
+            else if (Wyniki[3] < Wynik)
+            {
+                Wyniki[4] = Wyniki[3];
+                Wyniki[3] = Wynik;
+            }
+            else if (Wyniki[2] < Wynik)
+            {
+                Wyniki[4] = Wyniki[3];
+                Wyniki[3] = Wyniki[2];
+                Wyniki[2] = Wynik;
+            }
+            else if (Wyniki[1] < Wynik)
+            {
+                Wyniki[4] = Wyniki[3];
+                Wyniki[3] = Wyniki[2];
+                Wyniki[2] = Wyniki[1];
+                Wyniki[1] = Wynik;
+            }
+            else if (Wyniki[0] < Wynik)
+            {
+                Wyniki[4] = Wyniki[3];
+                Wyniki[3] = Wyniki[2];
+                Wyniki[2] = Wyniki[1];
+                Wyniki[1] = Wyniki[0];
+                Wyniki[0] = Wynik;
+            }
+
             uded.Visibility = Visibility.Visible;
         }
 
