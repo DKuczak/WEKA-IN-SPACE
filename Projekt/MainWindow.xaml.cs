@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,7 @@ namespace Projekt
         int CzasPocisku = 0;
         int LimitLotuPocisku = 90;
         bool gameOver = false;
+        List<int> Wyniki = new List<int>();
 
         ImageBrush pocisk = new ImageBrush();
         DispatcherTimer czasGry = new DispatcherTimer();
@@ -270,6 +272,7 @@ namespace Projekt
             czasGry.Stop();
             uded.Content = " " + wiad + " Wciśnij enter do dalszej gry lub ESC aby wyjść!";
             uded.Visibility = Visibility.Visible;
+            Wyniki.Add(Wynik);
         }
 
         private void Film_MediaEnded(object sender, RoutedEventArgs e)
