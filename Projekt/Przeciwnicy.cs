@@ -49,7 +49,7 @@ namespace Projekt
                 Fill = Brushes.White
             };
             Canvas.SetTop(newEnemy, 0);
-            Canvas.SetLeft(newEnemy, 900);
+            Canvas.SetLeft(newEnemy, 800);
 
 
             return newEnemy;
