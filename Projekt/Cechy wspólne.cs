@@ -12,11 +12,11 @@ namespace Projekt
 {
     class Cechy_wspólne
     {
-        public int wielkość;
-        public int szerokość;
+        protected int wielkość;
+        protected int szerokość;
         public ImageBrush tekstura = new ImageBrush();
-        public int szybkość;
+        protected int szybkość;
         public int hp;
-
+        public int getspeed() { return szybkość; }
     }
 }

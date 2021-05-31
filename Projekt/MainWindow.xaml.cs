@@ -33,7 +33,8 @@ namespace Projekt
         DispatcherTimer czasGry = new DispatcherTimer();
         Gracz pl1;
         Przeciwnicy p, pr, prz;
-        Pocisk pocisk1;
+        Pocisk pocisk1,pocisk2;
+        Przedmiot apteczka;
 
         public MainWindow()
         {
@@ -48,31 +49,20 @@ namespace Projekt
 
         }
         private void Rozpocznij() {
-            pl1 = new Gracz { hp=100 };
+            pl1 = new Gracz ( 100);
             pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz1.png"));
             player.Fill = pl1.tekstura;
             pocisk1 = new Pocisk();
+            pocisk2 = new Pocisk();
+            apteczka = new Przedmiot();
             czasGry.Tick += GameLoop;
             czasGry.Interval = TimeSpan.FromMilliseconds(10);
             czasGry.Start();
 
             Canvas.Focus();
-            pr = new Przeciwnicy { limit = 1, szerokość = 45, wielkość = 60, szybkość = 10 };
-            prz = new Przeciwnicy();
-            p = new Przeciwnicy
-            {
-                limit = 5,
-                szerokość = 75,
-                wielkość = 75,
-                szybkość = 6,
-                wartość = 100
+            p = new Przeciwnicy(5, 75, 75, 6, 100);
+            
 
-            };
-            wygeneruj1();
-
-        }
-        private void generator_pocisku() {
-            Canvas.Children.Add(pocisk1.PociskPrzeciwnika(0,0));
         }
         private void wygeneruj1()
         {
@@ -95,6 +85,7 @@ namespace Projekt
             Wynik++;
             Rect Hitboxp = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
             TimerTicks.Content = "Wynik: " + Wynik;
+            Życie.Content = "Życie: " + pl1.hp;
 
             if (pl1.Lewo == true && Canvas.GetLeft(player) > 0)
             {
@@ -149,7 +140,7 @@ namespace Projekt
                 else if (x is Rectangle && (string)x.Tag == "wróg")
                 {
                     Przeciwnicy.Add(x);
-                    Canvas.SetLeft(x, Canvas.GetLeft(x) + p.szybkość);
+                    Canvas.SetLeft(x, Canvas.GetLeft(x) + p.getspeed());
                     if (Canvas.GetLeft(x) > 1920)
                     {
                         Canvas.SetLeft(x, -80);
@@ -203,9 +194,9 @@ namespace Projekt
                     Canvas.Children.Add(pocisk1.PociskPrzeciwnika(Canvas.GetLeft(x), Canvas.GetTop(x)));
                 }
             }
-            if (generator.Next(0, 100) > 99)
+            if (generator.Next(0, 1000) > 995)
                                 {
-                                    Canvas.Children.Add(apteczka.przedmiot(Canvas.GetLeft(player), Canvas.GetTop(player) - 800));
+                                    Canvas.Children.Add(apteczka.przedmiot(Canvas.GetLeft(player), 0));
                                 }
             foreach (Rectangle i in itemsToRemove)
             {

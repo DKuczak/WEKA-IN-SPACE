@@ -19,6 +19,6 @@ namespace Projekt
     class Gracz : Cechy_wspólne
     {
         public bool Lewo, Prawo, Góra, Dół;
-       
+        public Gracz(int hp) { this.hp = hp; }
     }
 }
