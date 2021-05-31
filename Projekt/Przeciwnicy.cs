@@ -39,9 +39,13 @@ namespace Projekt
             return newEnemy;
             
         }
-        void wypuszczenie_pocisku(int czas)
+        public Przeciwnicy(int limit, int szerokość, int wielkość, int szybkość, int wartość) 
         {
-
+            this.limit = limit;
+            this.szerokość = szerokość;
+            this.wielkość = wielkość;
+            this.szybkość = szybkość;
+            this.wartość = wartość;
         }
     }
 }
