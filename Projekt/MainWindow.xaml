@@ -26,10 +26,9 @@
                 </ImageBrush>
             </Grid.Background>
             <Label Content="WEKA IN SPACE" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="568" Height="144" FontSize="80" Foreground="White"/>
-            <Button Margin="150,390,1410,620" Content="Gra dla jednego gracza" Cursor="Hand" Click="Gra1"/>
-            <Button Margin="150,530,1410,480" Content="Gry dla dwóch graczy" Cursor="Hand" Click="DoPrzodu" />
-            <Button Margin="150,670,1410,340" Content="Ranking" Cursor="Hand" Click="Wranking"/>
-            <Button Margin="150,810,1410,200" Content="Ustawienia" Cursor="Hand" Click="Wustawienia"/>
+            <Button Margin="150,530,1410,480" Content="Gra dla jednego gracza" Cursor="Hand" Click="Gra1"/>
+            <Button Margin="150,670,1410,340" Content="Gry dla dwóch graczy" Cursor="Hand" Click="DoPrzodu" />
+            <Button Margin="150,810,1410,200" Content="Ranking" Cursor="Hand" Click="Wranking"/>
             <Button Margin="150,950,1410,60" Content="Wyjście" Cursor="Hand" Click="Wyjscie"/>
         </Grid>
 
