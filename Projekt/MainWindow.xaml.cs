@@ -32,11 +32,11 @@ namespace Projekt
         int CzasPocisku = 0;
         int LimitLotuPocisku = 90;
         bool gameOver = false;
-        List<int> Wyniki = new List<int>();
 
         ImageBrush pocisk = new ImageBrush();
         DispatcherTimer czasGry = new DispatcherTimer();
-        Gracz pl1;
+        Gracz pl1 = new Gracz( 100);
+        Gracz pl2 = new Gracz(100);
         Przeciwnicy p, pr, prz;
         Pocisk pocisk1,pocisk2;
         Przedmiot apteczka;
@@ -54,8 +54,9 @@ namespace Projekt
 
         }
         private void Rozpocznij() {
-            pl1 = new Gracz ( 100);
+            
             pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz1.png"));
+            pl2.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz1.png"));
             player.Fill = pl1.tekstura;
             pocisk1 = new Pocisk();
             pocisk2 = new Pocisk();
@@ -147,18 +148,11 @@ namespace Projekt
                 else if (x is Rectangle && (string)x.Tag == "wróg")
                 {
                     Przeciwnicy.Add(x);
-                    Canvas.SetLeft(x, Canvas.GetLeft(x) + p.getspeed());
-                    if (Canvas.GetLeft(x) > 1920)
-                    {
-                        Canvas.SetLeft(x, -80);
-                        Canvas.SetTop(x, Canvas.GetTop(x) + (x.Height + 10));
-                    }
+                    p.poruszanie_przeciwnika(x, p);
                     Rect hitboxprz = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (Hitboxp.IntersectsWith(hitboxprz))
                     {
-                        if (pl1.hp <= 0)
-                            KoniecGry("Nie żyjesz! ");
-                        else pl1.hp -= 10;
+                        KoniecGry("Nie żyjesz! ");
                     }
                 }
 
@@ -176,7 +170,8 @@ namespace Projekt
                     {
                         if (pl1.hp <= 0)
                             KoniecGry("Nie żyjesz! ");
-                        else pl1.hp -= 1;
+                        else pl1.hp -= 10;
+                        itemsToRemove.Add(x);
                     }
                 }
                 else if (x is Rectangle && (string)x.Tag == "przedmiot")
@@ -191,7 +186,8 @@ namespace Projekt
                     if (Hitboxp.IntersectsWith(przedmiot))
                     {
                         if (pl1.hp < 100)
-                            pl1.hp += 2;
+                            pl1.hp += 25;
+                        itemsToRemove.Add(x);
                     }
                 }
             }
@@ -202,7 +198,7 @@ namespace Projekt
                     Canvas.Children.Add(pocisk1.PociskPrzeciwnika(Canvas.GetLeft(x), Canvas.GetTop(x)));
                 }
             }
-            if (generator.Next(0, 1000) > 995)
+            if (generator.Next(0, 1000) > 998)
                                 {
                                     Canvas.Children.Add(apteczka.przedmiot(Canvas.GetLeft(player), 0));
                                 }
@@ -318,9 +314,8 @@ namespace Projekt
                 Wyniki[1] = Wyniki[0];
                 Wyniki[0] = Wynik;
             }
-
+            liczbap = 0;
             uded.Visibility = Visibility.Visible;
-            Wyniki.Add(Wynik);
         }
 
         private void Film_MediaEnded(object sender, RoutedEventArgs e)

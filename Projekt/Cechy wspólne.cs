@@ -38,6 +38,16 @@ namespace Projekt
             Canvas.SetTop(x, Canvas.GetTop(x) + 10);
             return x;
         }
+        public Rectangle poruszanie_przeciwnika(Rectangle x, Przeciwnicy p) 
+        {
+            Canvas.SetLeft(x, Canvas.GetLeft(x) + p.getspeed());
+            if (Canvas.GetLeft(x) > 1920)
+            {
+                Canvas.SetLeft(x, -80);
+                Canvas.SetTop(x, Canvas.GetTop(x) + (x.Height + 10));
+            }
+            return x;
+        }
 
     }
 }
