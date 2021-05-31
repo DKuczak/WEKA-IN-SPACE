@@ -48,6 +48,13 @@ namespace Projekt
             }
             return x;
         }
-
+        public Rectangle RuchBoss(Rectangle x, Przeciwnicy boss) 
+        {
+            while (Canvas.GetTop(x) < 400) 
+            {
+                Canvas.SetLeft(x, Canvas.GetTop(x) + boss.getspeed());
+            }
+            return x; 
+        }
     }
 }
