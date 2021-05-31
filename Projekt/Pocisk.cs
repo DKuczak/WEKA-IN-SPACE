@@ -18,6 +18,8 @@ namespace Projekt
 {
     class Pocisk
     {
+        int obrażenia;
+        int szybkość_pocisku;
         public Rectangle PociskPrzeciwnika(double x, double y)
         {
             Rectangle przeciwnikaPocisk = new Rectangle
@@ -50,5 +52,12 @@ namespace Projekt
 
             return (Pocisk);
         }
+        public Pocisk(int obrażenia, int szybkość_pocisku) 
+        {
+            this.obrażenia = obrażenia;
+            this.szybkość_pocisku = szybkość_pocisku;
+        }
+        public int getDamage() { return obrażenia; }
+        public int spdbullet() { return szybkość_pocisku; }
     }
 }

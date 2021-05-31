@@ -39,13 +39,30 @@ namespace Projekt
             return newEnemy;
             
         }
-        public Przeciwnicy(int limit, int szerokość, int wielkość, int szybkość, int wartość) 
+        public Rectangle StwórzBossa(string nazwa)
+        {
+            Rectangle newEnemy = new Rectangle
+            {
+                Tag = nazwa,
+                Height = wielkość,
+                Width = szerokość,
+                Fill = Brushes.White
+            };
+            Canvas.SetTop(newEnemy, 0);
+            Canvas.SetLeft(newEnemy, 800);
+
+
+            return newEnemy;
+
+        }
+        public Przeciwnicy(int limit, int szerokość, int wielkość, int szybkość, int wartość, int hp) 
         {
             this.limit = limit;
             this.szerokość = szerokość;
             this.wielkość = wielkość;
             this.szybkość = szybkość;
             this.wartość = wartość;
+            this.hp = hp;
         }
     }
 }

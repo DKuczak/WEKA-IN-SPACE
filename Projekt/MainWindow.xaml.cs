@@ -37,8 +37,8 @@ namespace Projekt
         DispatcherTimer czasGry = new DispatcherTimer();
         Gracz pl1 = new Gracz( 100);
         Gracz pl2 = new Gracz(100);
-        Przeciwnicy p, pr, prz;
-        Pocisk pocisk1,pocisk2;
+        Przeciwnicy boss, p;
+        Pocisk pocisk1,pocisk2,ppocisk;
         Przedmiot apteczka;
 
         public MainWindow()
@@ -58,16 +58,17 @@ namespace Projekt
             pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz1.png"));
             pl2.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz1.png"));
             player.Fill = pl1.tekstura;
-            pocisk1 = new Pocisk();
-            pocisk2 = new Pocisk();
+            pocisk1 = new Pocisk(10, 20);
+            pocisk2 = new Pocisk(10, 20);
+            ppocisk = new Pocisk(10, 10);
             apteczka = new Przedmiot();
             czasGry.Tick += GameLoop;
             czasGry.Interval = TimeSpan.FromMilliseconds(10);
             czasGry.Start();
 
             Canvas.Focus();
-            p = new Przeciwnicy(5, 75, 75, 6, 100);
-            
+            p = new Przeciwnicy(5, 75, 75, 6, 100, 1);
+            boss = new Przeciwnicy(1, 100, 100, 6, 1000, 500);
 
         }
         private void wygeneruj1()
@@ -81,13 +82,29 @@ namespace Projekt
             liczbap += p.limit;
             p.limit++;
         }
+        private void wygeneruj2()
+        {
+            boss.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/przeciwnik1.png"));
+            for (int i = 0; i < p.limit; i++)
+            {
+                Canvas.Children.Add(boss.StwórzBossa("Boss"));
+
+            }
+            liczbap += p.limit;
+            p.limit++;
+        }
         private void GameLoop(object sender, EventArgs e)
         {
-            if (liczbap == 0)
+            int o = 1;
+           if (liczbap==0 && p.limit == 10 * o) 
+            {
+                wygeneruj2();
+            }
+            else if (liczbap == 0)
             {
                 wygeneruj1();
             }
-
+           
             Wynik++;
             Rect Hitboxp = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
             TimerTicks.Content = "Wynik: " + Wynik;
@@ -118,7 +135,7 @@ namespace Projekt
             {
                 if (x is Rectangle && (string)x.Tag == "pocisk")
                 {
-                    Canvas.SetTop(x, Canvas.GetTop(x) - 20);
+                    Canvas.SetTop(x, Canvas.GetTop(x) - pocisk1.spdbullet());
 
                     if (Canvas.GetTop(x) < 10)
                     {
@@ -142,6 +159,23 @@ namespace Projekt
                                 
                             }
                         }
+                        else if (y is Rectangle && Tag == "Boss")
+                        {
+                            Rect hitboxboss = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
+
+                            if (pocisk.IntersectsWith(hitboxboss))
+                            {
+                                itemsToRemove.Add(x);
+                                if (boss.hp < 0)
+                                {
+                                    itemsToRemove.Add(y);
+                                }
+                                else boss.hp -= pocisk1.getDamage();
+                                liczbap--;
+                                Wynik += boss.wartość;
+
+                            }
+                        }
                     }
                 }
 
@@ -151,6 +185,16 @@ namespace Projekt
                     p.poruszanie_przeciwnika(x, p);
                     Rect hitboxprz = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (Hitboxp.IntersectsWith(hitboxprz))
+                    {
+                        KoniecGry("Nie żyjesz! ");
+                    }
+                }
+                else if (x is Rectangle && (string)x.Tag == "Boss")
+                {
+                    Przeciwnicy.Add(x);
+                    boss.RuchBoss(x, boss);
+                    Rect hitboxboss = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    if (Hitboxp.IntersectsWith(hitboxboss))
                     {
                         KoniecGry("Nie żyjesz! ");
                     }
@@ -168,7 +212,7 @@ namespace Projekt
                     Rect ppocisk = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (Hitboxp.IntersectsWith(ppocisk))
                     {
-                        if (pl1.hp <= 0)
+                        if (pl1.hp <= 1)
                             KoniecGry("Nie żyjesz! ");
                         else pl1.hp -= 10;
                         itemsToRemove.Add(x);
@@ -195,7 +239,7 @@ namespace Projekt
             {
                 if (generator.Next(0, 100) > 98)
                 {
-                    Canvas.Children.Add(pocisk1.PociskPrzeciwnika(Canvas.GetLeft(x), Canvas.GetTop(x)));
+                    Canvas.Children.Add(ppocisk.PociskPrzeciwnika(Canvas.GetLeft(x), Canvas.GetTop(x)));
                 }
             }
             if (generator.Next(0, 1000) > 998)
@@ -230,7 +274,7 @@ namespace Projekt
             }
             if (e.Key == Key.Space && !e.IsRepeat)
             {
-                Canvas.Children.Add(pocisk2.PociskGracza(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width));
+                Canvas.Children.Add(pocisk1.PociskGracza(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width));
             }
             if (e.Key == Key.Enter && gameOver == true)
             {
