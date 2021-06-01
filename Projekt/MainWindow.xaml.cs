@@ -14,7 +14,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using System.IO;
 
 
 namespace Projekt
@@ -39,7 +38,7 @@ namespace Projekt
         Gracz pl1 = new Gracz( 100);
         Gracz pl2 = new Gracz(100);
         Przeciwnicy boss, p;
-        Pocisk pocisk1,pocisk2,ppocisk;
+        Pocisk pocisk1,ppocisk;
         Przedmiot apteczka;
 
         public MainWindow()
@@ -55,14 +54,18 @@ namespace Projekt
 
         }
         private void Rozpocznij() {
-            
-            pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz1.png"));
-            pl2.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz1.png"));
-            player.Fill = pl1.tekstura;
-            pocisk1 = new Pocisk(10, 20);
-            pocisk2 = new Pocisk(10, 20);
+
             ppocisk = new Pocisk(10, 10);
+            pocisk1 = new Pocisk(10, 20);
             apteczka = new Przedmiot();
+            ppocisk.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/strzal_przeciwnika.png"));
+            pocisk1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/strzal_gracza.png"));
+            apteczka.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/apteczka.png"));
+
+            pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz1.png"));
+            pl2.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz2.png"));
+            player.Fill = pl1.tekstura;
+
             czasGry.Tick += GameLoop;
             czasGry.Interval = TimeSpan.FromMilliseconds(10);
             czasGry.Start();
@@ -86,7 +89,7 @@ namespace Projekt
         }
         private void wygeneruj2()
         {
-            boss.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/przeciwnik1.png"));
+            boss.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/boss.png"));
             for (int i = 0; i < boss.limit; i++)
             {
                 Canvas.Children.Add(boss.StwórzBossa("Boss"));
@@ -236,9 +239,16 @@ namespace Projekt
                     Rect przedmiot = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (Hitboxp.IntersectsWith(przedmiot))
                     {
-                        if (pl1.hp < 100)
+                        if (pl1.hp > 75)
+                        {
+                            pl1.hp = 100;
+                            itemsToRemove.Add(x);
+                        }
+                        else if (pl1.hp < 100)
+                        {
                             pl1.hp += 25;
-                        itemsToRemove.Add(x);
+                            itemsToRemove.Add(x);
+                        }
                     }
                 }
             }
