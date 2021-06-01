@@ -114,7 +114,9 @@ namespace Projekt
             {
                 wygeneruj1();
             }
-           
+            if (pl1.hp <= 1)
+                KoniecGry();
+
             Wynik++;
             Rect Hitboxp = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
             TimerTicks.Content = "Wynik: " + Wynik;
@@ -226,13 +228,8 @@ namespace Projekt
                     Rect ppocisk = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (Hitboxp.IntersectsWith(ppocisk))
                     {
-                        if (pl1.hp <= 1)
-                            KoniecGry();
-                        else
-                        {
-                            pl1.hp -= 10;
-                            itemsToRemove.Add(x);
-                        }
+                        pl1.hp -= 10;
+                        itemsToRemove.Add(x);
                     }
                 }
                 else if (x is Rectangle && (string)x.Tag == "przedmiot")
