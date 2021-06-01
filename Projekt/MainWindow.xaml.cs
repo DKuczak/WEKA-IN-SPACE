@@ -104,7 +104,7 @@ namespace Projekt
         {
             int o = 1;
            
-           if (liczbap==0 && p.limit == 10* o ) 
+           if (liczbap==0 && p.limit == 10 * o ) 
             {
                 wygeneruj2();
                 p.limit++;
@@ -342,6 +342,26 @@ namespace Projekt
 
                 Application.Current.Shutdown();
             }
+            if (e.Key == Key.A)
+            {
+                pl2.Lewo = true;
+            }
+            if (e.Key == Key.D)
+            {
+                pl2.Prawo = true;
+            }
+            if (e.Key == Key.W)
+            {
+                pl2.Góra = true;
+            }
+            if (e.Key == Key.S)
+            {
+                pl2.Dół = true;
+            }
+            if (e.Key == Key.E && !e.IsRepeat)
+            {
+                Canvas.Children.Add(pocisk1.PociskGracza(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width));
+            }
         }
         private void KeyIsUp(object sender, KeyEventArgs e)
         {
@@ -360,6 +380,22 @@ namespace Projekt
             if (e.Key == Key.Down)
             {
                 pl1.Dół = false;
+            }
+            if (e.Key == Key.A)
+            {
+                pl2.Lewo = true;
+            }
+            if (e.Key == Key.D)
+            {
+                pl2.Prawo = true;
+            }
+            if (e.Key == Key.W)
+            {
+                pl2.Góra = true;
+            }
+            if (e.Key == Key.S)
+            {
+                pl2.Dół = true;
             }
         }
 
