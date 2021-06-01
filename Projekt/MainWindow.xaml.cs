@@ -233,9 +233,16 @@ namespace Projekt
                     Rect przedmiot = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (Hitboxp.IntersectsWith(przedmiot))
                     {
-                        if (pl1.hp < 100)
+                        if (pl1.hp > 75)
+                        {
+                            pl1.hp = 100;
+                            itemsToRemove.Add(x);
+                        }
+                        else if (pl1.hp < 100)
+                        {
                             pl1.hp += 25;
-                        itemsToRemove.Add(x);
+                            itemsToRemove.Add(x);
+                        }
                     }
                 }
             }
