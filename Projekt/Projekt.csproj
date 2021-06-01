@@ -30,10 +30,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="materialy\Gracz2.png" />
     <Resource Include="materialy\apteczka.png" />
     <Resource Include="materialy\boss.png" />
     <Resource Include="materialy\Gracz1.png" />
-    <Resource Include="materialy\Gracz2.png" />
     <Resource Include="materialy\kosmos.png" />
     <Resource Include="materialy\loading.png" />
     <Resource Include="materialy\przeciwnik1.png" />
