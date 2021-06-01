@@ -75,7 +75,7 @@ namespace Projekt
 
             Canvas.Focus();
             p = new Przeciwnicy(5, 75, 75, 6, 100, 1);
-            boss = new Przeciwnicy(1, 100, 100, 1, 1000, 500);
+            boss = new Przeciwnicy(1, 60, 100, 1, 1000, 500);
 
         }
         private void wygeneruj1()
