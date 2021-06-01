@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 
 
+
 namespace Projekt
 {
     /// <summary>
@@ -23,8 +24,10 @@ namespace Projekt
     /// </summary>
     public partial class MainWindow : Window
     {
-        double Wynik = 0;
-        double[] Wyniki= new double [5];
+        
+        
+        string nazwa;
+        int Wynik = 0;        
         int liczbap = 0;
         Random generator = new Random();
         List<Rectangle> itemsToRemove = new List<Rectangle>();
@@ -48,7 +51,7 @@ namespace Projekt
             Menu.Visibility = Visibility.Collapsed;
             Menu2.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
-            Ranking.Visibility = Visibility.Collapsed;
+            TablicaWynikow.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Collapsed;
             Filmik.Visibility = Visibility.Visible;
 
@@ -116,7 +119,7 @@ namespace Projekt
             Rect Hitboxp = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
             TimerTicks.Content = "Wynik: " + Wynik;
             Życie.Content = "Życie: " + pl1.hp;
-            Rank.Content = "Ranking: " + "\n" + Wyniki[0] + "\n" + Wyniki[1] + "\n" + Wyniki[2] + "\n" + Wyniki[3] + "\n" + Wyniki[4];
+            
 
 
             if (pl1.Lewo == true && Canvas.GetLeft(player) > 0)
@@ -196,7 +199,7 @@ namespace Projekt
                     Rect hitboxprz = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (Hitboxp.IntersectsWith(hitboxprz))
                     {
-                        KoniecGry("Nie żyjesz! ");
+                        KoniecGry();
                     }
                 }
                 else if (x is Rectangle && (string)x.Tag == "Boss")
@@ -206,7 +209,8 @@ namespace Projekt
                     Rect hitboxboss = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (Hitboxp.IntersectsWith(hitboxboss))
                     {
-                        KoniecGry("Nie żyjesz! ");
+                        KoniecGry();
+
                     }
                 }
 
@@ -220,12 +224,18 @@ namespace Projekt
                         itemsToRemove.Add(x);
                     }
                     Rect ppocisk = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                    if (Hitboxp.IntersectsWith(ppocisk))
+                    if (Hitboxp.IntersectsWith(przedmiot))
                     {
-                        if (pl1.hp <= 1)
-                            KoniecGry("Nie żyjesz! ");
-                        else pl1.hp -= 10;
-                        itemsToRemove.Add(x);
+                        if (pl1.hp > 75)
+                        {
+                            pl1.hp = 100;
+                            itemsToRemove.Add(x);
+                        }
+                        else if (pl1.hp < 100)
+                        {
+                            pl1.hp += 25;
+                            itemsToRemove.Add(x);
+                        }
                     }
                 }
                 else if (x is Rectangle && (string)x.Tag == "przedmiot")
@@ -295,29 +305,47 @@ namespace Projekt
             }
             if (e.Key == Key.Enter && gameOver == true)
             {
+                nazwa = nick.Text;
+
+                if (nazwa == "")
+                {
+                    nazwa = "Bezimienny";
+                }
                 
-                    uded.Visibility = Visibility.Hidden;
-                    gameOver = false;
-                    foreach (var x in Canvas.Children.OfType<Rectangle>())
+
+                Ranking obecnyWynik = new Ranking(nazwa, Wynik);
+
+                obecnyWynik.zapisRankingu(obecnyWynik);
+                    
+                uded.Visibility = Visibility.Hidden;
+                nick.Visibility = Visibility.Hidden;
+                gameOver = false;
+                foreach (var x in Canvas.Children.OfType<Rectangle>())
+                {
+                    if (x is Rectangle && (string)x.Tag == "pocisk" || x is Rectangle && (string)x.Tag == "wróg" || x is Rectangle && (string)x.Tag == "ppocisk")
                     {
-                        if (x is Rectangle && (string)x.Tag == "pocisk" || x is Rectangle && (string)x.Tag == "wróg" || x is Rectangle && (string)x.Tag == "ppocisk")
-                        {
-                            itemsToRemove.Add(x);
-                        }
+                        itemsToRemove.Add(x);
                     }
+                }
 
-                    Canvas.SetLeft(player, 915);
-                    Canvas.SetTop(player, 972);
-                    Wynik = 0;
-                    czasGry.Tick -= GameLoop;
-                    czasGry.Start();
+                Canvas.SetLeft(player, 915);
+                Canvas.SetTop(player, 972);
+                Wynik = 0;
+                nazwa = "unknown";
+                czasGry.Tick -= GameLoop;
+                czasGry.Start();
 
-                    Canvas.Visibility = Visibility.Collapsed;
-                    Menu.Visibility = Visibility.Visible;
+                Canvas.Visibility = Visibility.Collapsed;
+                Menu.Visibility = Visibility.Visible;
 
             }
             if (e.Key == Key.Escape && gameOver == true)
             {
+                nazwa = nick.Text;
+                Ranking obecnyWynik = new Ranking(nazwa, Wynik);
+
+                obecnyWynik.zapisRankingu(obecnyWynik);
+
                 Application.Current.Shutdown();
             }
         }
@@ -340,42 +368,14 @@ namespace Projekt
                 pl1.Dół = false;
             }
         }
-        private void KoniecGry(string wiad)
+
+        private void KoniecGry()
         {
             gameOver = true;
             czasGry.Stop();
-            uded.Content = " " + wiad + " Wciśnij enter do dalszej gry lub ESC aby wyjść!";
-            if (Wyniki[4]<Wynik)
-            {
-                Wyniki[4] = Wynik;
-            }
-            else if (Wyniki[3] < Wynik)
-            {
-                Wyniki[4] = Wyniki[3];
-                Wyniki[3] = Wynik;
-            }
-            else if (Wyniki[2] < Wynik)
-            {
-                Wyniki[4] = Wyniki[3];
-                Wyniki[3] = Wyniki[2];
-                Wyniki[2] = Wynik;
-            }
-            else if (Wyniki[1] < Wynik)
-            {
-                Wyniki[4] = Wyniki[3];
-                Wyniki[3] = Wyniki[2];
-                Wyniki[2] = Wyniki[1];
-                Wyniki[1] = Wynik;
-            }
-            else if (Wyniki[0] < Wynik)
-            {
-                Wyniki[4] = Wyniki[3];
-                Wyniki[3] = Wyniki[2];
-                Wyniki[2] = Wyniki[1];
-                Wyniki[1] = Wyniki[0];
-                Wyniki[0] = Wynik;
-            }
+            uded.Content = "Nie żyjesz! Wciśnij enter do dalszej gry lub ESC aby wyjść!";
             liczbap = 0;
+            nick.Visibility = Visibility.Visible;
             uded.Visibility = Visibility.Visible;
         }
 
@@ -385,7 +385,7 @@ namespace Projekt
             Filmik.Visibility = Visibility.Collapsed;
             Menu2.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
-            Ranking.Visibility = Visibility.Collapsed;
+            TablicaWynikow.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Visible;
         }
@@ -394,34 +394,62 @@ namespace Projekt
             Filmik.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
-            Ranking.Visibility = Visibility.Collapsed;
+            TablicaWynikow.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Collapsed;
             Menu2.Visibility = Visibility.Visible;
         }
         private void Cofanie(object sender, RoutedEventArgs e)
         {
+
+            nowyWynik.Content = "";
+
             Filmik.Visibility = Visibility.Collapsed;
             Menu2.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
-            Ranking.Visibility = Visibility.Collapsed;
+            TablicaWynikow.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Visible;
         }
         private void Wranking(object sender, RoutedEventArgs e)
         {
+            Ranking pojemnik = new Ranking();
+
+            List<Ranking> ranking = new List<Ranking>();
+
             Filmik.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Collapsed;
             Menu2.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Collapsed;
-            Ranking.Visibility = Visibility.Visible;
+            ranking = pojemnik.odczytRankingu();
+
+            if (ranking == null)
+            {
+                nowyWynik.Content = "Niedobrze!!!\nRanking na razie jest pusty! \nSpróbuj go uzupełnić pokonując przeciwników!";
+            }
+            else
+            {
+                int numeracja = 1;           
+
+                foreach (Ranking rankingObiekt in ranking)
+                {
+                    //dodawanie nowych linijek wyników
+
+                    nowyWynik.Content += numeracja + ". " + rankingObiekt.nazwaGracza + " " + rankingObiekt.wynik + "\n";
+
+                    numeracja++;
+                }   
+            }
+            TablicaWynikow.Visibility = Visibility.Visible;
         }
+
+
         private void Wustawienia(object sender, RoutedEventArgs e)
         {
             Filmik.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Collapsed;
             Menu2.Visibility = Visibility.Collapsed;
-            Ranking.Visibility = Visibility.Collapsed;
+            TablicaWynikow.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Visible;
         }
@@ -431,7 +459,7 @@ namespace Projekt
             Filmik.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Collapsed;
             Menu2.Visibility = Visibility.Collapsed;
-            Ranking.Visibility = Visibility.Collapsed;
+            TablicaWynikow.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Visible;
             Rozpocznij();
