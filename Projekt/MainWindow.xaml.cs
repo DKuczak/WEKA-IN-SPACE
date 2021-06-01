@@ -98,7 +98,7 @@ namespace Projekt
                 Canvas.Children.Add(boss.StwórzBossa("Boss"));
 
             }
-            liczbap += p.limit;
+            liczbap += boss.limit;
         }
         private void GameLoop(object sender, EventArgs e)
         {
@@ -224,16 +224,13 @@ namespace Projekt
                         itemsToRemove.Add(x);
                     }
                     Rect ppocisk = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                    if (Hitboxp.IntersectsWith(przedmiot))
+                    if (Hitboxp.IntersectsWith(ppocisk))
                     {
-                        if (pl1.hp > 75)
+                        if (pl1.hp <= 1)
+                            KoniecGry();
+                        else
                         {
-                            pl1.hp = 100;
-                            itemsToRemove.Add(x);
-                        }
-                        else if (pl1.hp < 100)
-                        {
-                            pl1.hp += 25;
+                            pl1.hp -= 10;
                             itemsToRemove.Add(x);
                         }
                     }
