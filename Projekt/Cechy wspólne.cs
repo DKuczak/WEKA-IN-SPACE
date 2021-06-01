@@ -48,12 +48,25 @@ namespace Projekt
             }
             return x;
         }
-        public Rectangle RuchBoss(Rectangle x, Przeciwnicy boss) 
+        public Rectangle RuchBoss(Rectangle x, Przeciwnicy boss ,ref bool z) 
         {
-            while (Canvas.GetTop(x) < 400) 
+            
+            if (Canvas.GetTop(x) < 200) 
             {
-                Canvas.SetLeft(x, Canvas.GetTop(x) + boss.getspeed());
+                Canvas.SetTop(x, Canvas.GetTop(x) + boss.getspeed());
+                
             }
+            if (z == true && Canvas.GetLeft(x) > 0)
+            {
+                Canvas.SetLeft(x, Canvas.GetLeft(x) - boss.getspeed());
+                
+            }
+            else 
+            {
+                Canvas.SetLeft(x, Canvas.GetLeft(x) + boss.getspeed());
+            }
+            if (Canvas.GetLeft(x) <= 1) z = false;
+            else if (Canvas.GetLeft(x) >= 1920-100) z = true;
             return x; 
         }
     }

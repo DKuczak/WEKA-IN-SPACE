@@ -19,7 +19,7 @@ namespace Projekt
     class Przeciwnicy : Cechy_wspólne
     {
         public int limit;
-            int left = 10;
+        public int left = 10;
         public int wartość;
 
         public Rectangle StwórzPrzeciwnika(string nazwa)
@@ -46,7 +46,7 @@ namespace Projekt
                 Tag = nazwa,
                 Height = wielkość,
                 Width = szerokość,
-                Fill = Brushes.White
+                Fill = tekstura
             };
             Canvas.SetTop(newEnemy, 0);
             Canvas.SetLeft(newEnemy, 800);
