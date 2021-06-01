@@ -18,6 +18,9 @@ namespace Projekt
 {
     class Pocisk
     {
+        int obrażenia;
+        int szybkość_pocisku;
+        public ImageBrush tekstura = new ImageBrush();
         public Rectangle PociskPrzeciwnika(double x, double y)
         {
             Rectangle przeciwnikaPocisk = new Rectangle
@@ -25,8 +28,7 @@ namespace Projekt
                 Tag = "ppocisk",
                 Height = 40,
                 Width = 15,
-                Fill = Brushes.Red,
-                Stroke = Brushes.Yellow
+                Fill = tekstura
             };
 
             Canvas.SetTop(przeciwnikaPocisk, y);
@@ -41,8 +43,7 @@ namespace Projekt
                 Tag = "pocisk",
                 Height = 20,
                 Width = 5,
-                Fill = Brushes.Blue,
-                Stroke = Brushes.White
+                Fill = tekstura
             };
 
             Canvas.SetTop(Pocisk, y - Pocisk.Height);
@@ -50,5 +51,12 @@ namespace Projekt
 
             return (Pocisk);
         }
+        public Pocisk(int obrażenia, int szybkość_pocisku) 
+        {
+            this.obrażenia = obrażenia;
+            this.szybkość_pocisku = szybkość_pocisku;
+        }
+        public int getDamage() { return obrażenia; }
+        public int spdbullet() { return szybkość_pocisku; }
     }
 }
