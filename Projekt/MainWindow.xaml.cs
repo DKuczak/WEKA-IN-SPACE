@@ -27,7 +27,8 @@ namespace Projekt
         
         
         string nazwa;
-        int Wynik = 0;        
+        int Wynik = 0;
+        int Wynik2 = 0;
         int liczbap = 0;
         Random generator = new Random();
         List<Rectangle> itemsToRemove = new List<Rectangle>();
@@ -35,11 +36,12 @@ namespace Projekt
         int LimitLotuPocisku = 90;
         bool gameOver = false;
         bool kierunek = true;
+        bool multiplayer = false;
 
         ImageBrush pocisk = new ImageBrush();
         DispatcherTimer czasGry = new DispatcherTimer();
-        Gracz pl1 = new Gracz( 100);
-        Gracz pl2 = new Gracz(100);
+        Gracz pl1 = new Gracz(100);
+        Gracz pl2 = new Gracz(100);      
         Przeciwnicy boss, p;
         Pocisk pocisk1,ppocisk;
         Przedmiot apteczka;
@@ -56,7 +58,21 @@ namespace Projekt
             Filmik.Visibility = Visibility.Visible;
 
         }
-        private void Rozpocznij() {
+        private void Rozpocznij(bool multiplayer) {
+
+            if (multiplayer == true)
+            {
+                player2.Visibility = Visibility.Visible;
+                Życie2.Visibility = Visibility.Visible;
+                pl1.hp = 100;
+                pl2.hp = 100;
+            }
+            else
+            {
+                player2.Visibility = Visibility.Hidden;
+                Życie2.Visibility = Visibility.Hidden;
+                pl1.hp = 100;
+            }
 
             ppocisk = new Pocisk(10, 10);
             pocisk1 = new Pocisk(10, 20);
@@ -68,6 +84,7 @@ namespace Projekt
             pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz1.png"));
             pl2.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz2.png"));
             player.Fill = pl1.tekstura;
+            player2.Fill = pl2.tekstura;
 
             czasGry.Tick += GameLoop;
             czasGry.Interval = TimeSpan.FromMilliseconds(10);
@@ -116,12 +133,19 @@ namespace Projekt
             }
             if (pl1.hp <= 1)
                 KoniecGry();
+            if (pl2.hp <= 1 && multiplayer == true)
+                KoniecGry();
 
             Wynik++;
+            Wynik2++;
             Rect Hitboxp = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
-            TimerTicks.Content = "Wynik: " + Wynik;
-            Życie.Content = "Życie: " + pl1.hp;
-            
+            Rect Hitboxp2 = new Rect(Canvas.GetLeft(player2), Canvas.GetTop(player2), player2.Width, player2.Height);
+            TimerTicks.Content = "Wynik: " + Wynik;            
+            Życie.Content = "Życie pl1: " + pl1.hp;
+            Życie2.Content = "Życie pl2: " + pl2.hp;
+
+
+
 
 
             if (pl1.Lewo == true && Canvas.GetLeft(player) > 0)
@@ -139,6 +163,24 @@ namespace Projekt
             if (pl1.Dół == true && Canvas.GetTop(player) + 110 < Application.Current.MainWindow.Height)
             {
                 pl1.Ruch_Dół(player);
+            }
+
+
+            if (pl2.Lewo == true && Canvas.GetLeft(player2) > 0)
+            {
+                pl2.Ruch_Lewo(player2);
+            }
+            if (pl2.Prawo == true && Canvas.GetLeft(player2) + 80 < Application.Current.MainWindow.Width)
+            {
+                pl2.Ruch_Prawo(player2);
+            }
+            if (pl2.Góra == true && Canvas.GetTop(player2) > 0)
+            {
+                pl2.Ruch_Góra(player2);
+            }
+            if (pl2.Dół == true && Canvas.GetTop(player2) + 110 < Application.Current.MainWindow.Height)
+            {
+                pl2.Ruch_Dół(player2);
             }
 
             List<Rectangle> Przeciwnicy = new List<Rectangle>();
@@ -203,6 +245,10 @@ namespace Projekt
                     {
                         KoniecGry();
                     }
+                    if (Hitboxp2.IntersectsWith(hitboxprz) && multiplayer == true)
+                    {
+                        KoniecGry();
+                    }
                 }
                 else if (x is Rectangle && (string)x.Tag == "Boss")
                 {
@@ -210,6 +256,11 @@ namespace Projekt
                     boss.RuchBoss(x, boss,ref kierunek);
                     Rect hitboxboss = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (Hitboxp.IntersectsWith(hitboxboss))
+                    {
+                        KoniecGry();
+
+                    }
+                    if (Hitboxp2.IntersectsWith(hitboxboss) && multiplayer == true)
                     {
                         KoniecGry();
 
@@ -231,10 +282,15 @@ namespace Projekt
                         pl1.hp -= 10;
                         itemsToRemove.Add(x);
                     }
+                    if (Hitboxp2.IntersectsWith(ppocisk) && multiplayer == true)
+                    {
+                        pl2.hp -= 10;
+                        itemsToRemove.Add(x);
+                    }
                 }
                 else if (x is Rectangle && (string)x.Tag == "przedmiot")
                 {
-                    Canvas.SetTop(x, Canvas.GetTop(x) + 10);
+                    Canvas.SetTop(x, Canvas.GetTop(x) + 4);
 
                     if (Canvas.GetTop(x) > 1080)
                     {
@@ -254,6 +310,19 @@ namespace Projekt
                             itemsToRemove.Add(x);
                         }
                     }
+                    if (Hitboxp2.IntersectsWith(przedmiot) && multiplayer == true)
+                    {
+                        if (pl2.hp > 75)
+                        {
+                            pl2.hp = 100;
+                            itemsToRemove.Add(x);
+                        }
+                        else if (pl2.hp < 100)
+                        {
+                            pl2.hp += 25;
+                            itemsToRemove.Add(x);
+                        }
+                    }
                 }
             }
             foreach (var x in Przeciwnicy)
@@ -265,7 +334,7 @@ namespace Projekt
             }
             if (generator.Next(0, 1000) > 998)
                                 {
-                                    Canvas.Children.Add(apteczka.przedmiot(Canvas.GetLeft(player), 0));
+                                    Canvas.Children.Add(apteczka.przedmiot(generator.Next(0,1920), 0));
                                 }
             foreach (Rectangle i in itemsToRemove)
             {
@@ -324,8 +393,10 @@ namespace Projekt
 
                 Canvas.SetLeft(player, 915);
                 Canvas.SetTop(player, 972);
+                Canvas.SetLeft(player2, 990);
+                Canvas.SetTop(player2, 972);
                 Wynik = 0;
-                nazwa = "unknown";
+                
                 czasGry.Tick -= GameLoop;
                 czasGry.Start();
 
@@ -342,25 +413,25 @@ namespace Projekt
 
                 Application.Current.Shutdown();
             }
-            if (e.Key == Key.A)
+            if (e.Key == Key.A && multiplayer == true)
             {
                 pl2.Lewo = true;
             }
-            if (e.Key == Key.D)
+            if (e.Key == Key.D && multiplayer == true)
             {
                 pl2.Prawo = true;
             }
-            if (e.Key == Key.W)
+            if (e.Key == Key.W && multiplayer == true)
             {
                 pl2.Góra = true;
             }
-            if (e.Key == Key.S)
+            if (e.Key == Key.S && multiplayer == true)
             {
                 pl2.Dół = true;
             }
-            if (e.Key == Key.E && !e.IsRepeat)
+            if (e.Key == Key.E && !e.IsRepeat && multiplayer == true)
             {
-                Canvas.Children.Add(pocisk1.PociskGracza(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width));
+                Canvas.Children.Add(pocisk1.PociskGracza(Canvas.GetLeft(player2), Canvas.GetTop(player2), player2.Width));
             }
         }
         private void KeyIsUp(object sender, KeyEventArgs e)
@@ -383,19 +454,19 @@ namespace Projekt
             }
             if (e.Key == Key.A)
             {
-                pl2.Lewo = true;
+                pl2.Lewo = false;
             }
             if (e.Key == Key.D)
             {
-                pl2.Prawo = true;
+                pl2.Prawo = false;
             }
             if (e.Key == Key.W)
             {
-                pl2.Góra = true;
+                pl2.Góra = false;
             }
             if (e.Key == Key.S)
             {
-                pl2.Dół = true;
+                pl2.Dół = false;
             }
         }
 
@@ -484,6 +555,19 @@ namespace Projekt
             Ustawienia.Visibility = Visibility.Visible;
         }
 
+        private void Coop(object sender, RoutedEventArgs e)
+        {
+            Filmik.Visibility = Visibility.Collapsed;
+            Menu.Visibility = Visibility.Collapsed;
+            Menu2.Visibility = Visibility.Collapsed;
+            TablicaWynikow.Visibility = Visibility.Collapsed;
+            Ustawienia.Visibility = Visibility.Collapsed;
+            Canvas.Visibility = Visibility.Visible;
+
+            multiplayer = true;
+            Rozpocznij(multiplayer);
+        }
+
         private void Gra1(object sender, RoutedEventArgs e)
         {
             Filmik.Visibility = Visibility.Collapsed;
@@ -492,7 +576,9 @@ namespace Projekt
             TablicaWynikow.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Visible;
-            Rozpocznij();
+
+            multiplayer = false;
+            Rozpocznij(multiplayer);
         }
         private void Wyjscie(object sender, RoutedEventArgs e)
         {
