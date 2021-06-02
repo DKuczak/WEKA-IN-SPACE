@@ -14,6 +14,7 @@
     <None Remove="materialy\invader1.gif" />
     <None Remove="materialy\kosmos.png" />
     <None Remove="materialy\loading.png" />
+    <None Remove="materialy\powerup.png" />
     <None Remove="materialy\przeciwnik1.png" />
     <None Remove="materialy\przeciwnik2.png" />
     <None Remove="materialy\przeciwnik3.png" />
@@ -36,6 +37,7 @@
     <Resource Include="materialy\Gracz1.png" />
     <Resource Include="materialy\kosmos.png" />
     <Resource Include="materialy\loading.png" />
+    <Resource Include="materialy\powerup.png" />
     <Resource Include="materialy\przeciwnik1.png" />
     <Resource Include="materialy\przeciwnik2.png" />
     <Resource Include="materialy\przeciwnik3.png" />

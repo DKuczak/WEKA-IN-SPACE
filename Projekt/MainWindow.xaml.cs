@@ -95,10 +95,12 @@ namespace Projekt
             pocisk2 = new Pocisk(10, 20);
 
             apteczka = new Przedmiot();
+            Power = new Przedmiot();
             ppocisk.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/strzal_przeciwnika.png"));
             pocisk1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/strzal_gracza.png"));
             pocisk2.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/strzal_gracza.png"));
             apteczka.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/apteczka.png"));
+            Power.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/powerup.png"));
 
             pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz1.png"));
             pl2.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz2.png"));
@@ -498,13 +500,13 @@ namespace Projekt
                     {
                         itemsToRemove.Add(x);
                     }
-                    Rect przedmiot = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                    if (Hitboxp.IntersectsWith(przedmiot))
+                    Rect Power = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    if (Hitboxp.IntersectsWith(Power))
                     {
                             itemsToRemove.Add(x);
                         pocisk1.PowerUp();
                     }
-                    if (Hitboxp2.IntersectsWith(przedmiot) && multiplayer == true)
+                    if (Hitboxp2.IntersectsWith(Power) && multiplayer == true)
                     {
                         itemsToRemove.Add(x);
                         pocisk2.PowerUp();
@@ -522,7 +524,7 @@ namespace Projekt
                                 {
                                     Canvas.Children.Add(apteczka.przedmiot(generator.Next(0,1920), 0,"apteczka"));
                                 }
-            if (generator.Next(0, 1000) > 999)
+            if (generator.Next(0, 10000) > 9990)
             {
                 Canvas.Children.Add(Power.przedmiot(generator.Next(0, 1920), 0, "PowerUp"));
             }
