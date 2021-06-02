@@ -36,11 +36,11 @@ namespace Projekt
 
             return (przeciwnikaPocisk);
         }
-        public Rectangle PociskGracza(double x, double y, double w)
+        public Rectangle PociskGracza(double x, double y, double w, string nazwaGracza)
         {
             Rectangle Pocisk = new Rectangle
             {
-                Tag = "pocisk",
+                Tag = nazwaGracza,
                 Height = 20,
                 Width = 5,
                 Fill = tekstura

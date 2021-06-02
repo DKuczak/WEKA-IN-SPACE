@@ -37,13 +37,14 @@ namespace Projekt
         bool gameOver = false;
         bool kierunek = true;
         bool multiplayer = false;
+        bool rywalizacja = false;
         int o = 1;
         ImageBrush pocisk = new ImageBrush();
         DispatcherTimer czasGry = new DispatcherTimer();
         Gracz pl1 = new Gracz(100);
         Gracz pl2 = new Gracz(100);      
         Przeciwnicy boss, p;
-        Pocisk pocisk1,ppocisk;
+        Pocisk pocisk1,ppocisk,pocisk2;
         Przedmiot apteczka;
 
         public MainWindow()
@@ -58,7 +59,7 @@ namespace Projekt
             Filmik.Visibility = Visibility.Visible;
 
         }
-        private void Rozpocznij(bool multiplayer) {
+        private void Rozpocznij(bool multiplayer, bool rywalizacja) {
 
             if (multiplayer == true)
             {
@@ -66,9 +67,19 @@ namespace Projekt
                 Życie2.Visibility = Visibility.Visible;
                 pl1.hp = 100;
                 pl2.hp = 100;
+
+                if (rywalizacja == true)
+                {
+                    TimerTicks2.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    TimerTicks2.Visibility = Visibility.Hidden;
+                }
             }
             else
             {
+                TimerTicks2.Visibility = Visibility.Hidden;
                 player2.Visibility = Visibility.Hidden;
                 Życie2.Visibility = Visibility.Hidden;
                 pl1.hp = 100;
@@ -76,9 +87,12 @@ namespace Projekt
 
             ppocisk = new Pocisk(10, 10);
             pocisk1 = new Pocisk(10, 20);
+            pocisk2 = new Pocisk(10, 20);
+
             apteczka = new Przedmiot();
             ppocisk.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/strzal_przeciwnika.png"));
             pocisk1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/strzal_gracza.png"));
+            pocisk2.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/strzal_gracza.png"));
             apteczka.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/apteczka.png"));
 
             pl1.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/Gracz1.png"));
@@ -143,7 +157,8 @@ namespace Projekt
             Wynik2++;
             Rect Hitboxp = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
             Rect Hitboxp2 = new Rect(Canvas.GetLeft(player2), Canvas.GetTop(player2), player2.Width, player2.Height);
-            TimerTicks.Content = "Wynik: " + Wynik;            
+            TimerTicks.Content = "Wynik pl1: " + Wynik;
+            TimerTicks2.Content = "Wynik pl2: " + Wynik2;
             Życie.Content = "Życie pl1: " + pl1.hp;
             Życie2.Content = "Życie pl2: " + pl2.hp;
 
@@ -190,7 +205,7 @@ namespace Projekt
             
             foreach (var x in Canvas.Children.OfType<Rectangle>())
             {
-                if (x is Rectangle && (string)x.Tag == "pocisk")
+                if (x is Rectangle && (string)x.Tag == "Gracz1")
                 {
                     Canvas.SetTop(x, Canvas.GetTop(x) - pocisk1.spdbullet());
 
@@ -236,6 +251,72 @@ namespace Projekt
                                 else
                                 {
                                     boss.hp -= pocisk1.getDamage();                                    
+                                }
+
+                            }
+                        }
+                    }
+                }
+                else if (x is Rectangle && (string)x.Tag == "Gracz2")
+                {
+                    Canvas.SetTop(x, Canvas.GetTop(x) - pocisk2.spdbullet());
+
+                    if (Canvas.GetTop(x) < 10)
+                    {
+                        itemsToRemove.Add(x);
+                    }
+                    Rect pocisk = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+
+                    foreach (var y in Canvas.Children.OfType<Rectangle>())
+                    {
+                        string Tag = (string)y.Tag;
+                        if (y is Rectangle && Tag == "wróg")
+                        {
+                            Rect hitboxprz = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
+
+                            if (pocisk.IntersectsWith(hitboxprz))
+                            {
+                                itemsToRemove.Add(x);
+                                if (p.hp < 0)
+                                {
+                                    itemsToRemove.Add(y);
+                                    liczbap--;
+                                    if (rywalizacja == true)
+                                    {
+                                        Wynik2 += p.wartość;
+                                    }
+                                    else
+                                    {
+                                        Wynik += p.wartość;
+                                    }                                    
+                                }
+                                else p.hp -= pocisk2.getDamage();
+
+                            }
+                        }
+                        else if (y is Rectangle && Tag == "Boss")
+                        {
+                            Rect hitboxboss = new Rect(Canvas.GetLeft(y), Canvas.GetTop(y), y.Width, y.Height);
+
+                            if (pocisk.IntersectsWith(hitboxboss))
+                            {
+                                itemsToRemove.Add(x);
+                                if (boss.hp < 0)
+                                {
+                                    itemsToRemove.Add(y);                                
+                                    liczbap--;
+                                    if (rywalizacja == true)
+                                    {
+                                        Wynik2 += p.wartość;
+                                    }
+                                    else
+                                    {
+                                        Wynik += p.wartość;
+                                    }
+                                }
+                                else
+                                {
+                                    boss.hp -= pocisk2.getDamage();
                                 }
 
                             }
@@ -371,28 +452,32 @@ namespace Projekt
             }
             if (e.Key == Key.Space && !e.IsRepeat)
             {
-                Canvas.Children.Add(pocisk1.PociskGracza(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width));
+                Canvas.Children.Add(pocisk1.PociskGracza(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, "Gracz1"));
             }
             if (e.Key == Key.Enter && gameOver == true)
             {
-                nazwa = nick.Text;
-
-                if (nazwa == "")
+                if (multiplayer == false)
                 {
-                    nazwa = "Bezimienny";
+                    nazwa = nick.Text;
+
+                    if (nazwa == "")
+                    {
+                        nazwa = "Bezimienny";
+                    }
+
+
+                    Ranking obecnyWynik = new Ranking(nazwa, Wynik);
+
+                    obecnyWynik.zapisRankingu(obecnyWynik);
                 }
                 
-
-                Ranking obecnyWynik = new Ranking(nazwa, Wynik);
-
-                obecnyWynik.zapisRankingu(obecnyWynik);
                     
                 uded.Visibility = Visibility.Hidden;
                 nick.Visibility = Visibility.Hidden;
                 gameOver = false;
                 foreach (var x in Canvas.Children.OfType<Rectangle>())
                 {
-                    if (x is Rectangle && (string)x.Tag == "pocisk" || x is Rectangle && (string)x.Tag == "wróg" || x is Rectangle && (string)x.Tag == "ppocisk")
+                    if (x is Rectangle && (string)x.Tag == "Gracz1" || x is Rectangle && (string)x.Tag == "wróg" || x is Rectangle && (string)x.Tag == "ppocisk")
                     {
                         itemsToRemove.Add(x);
                     }
@@ -403,6 +488,7 @@ namespace Projekt
                 Canvas.SetLeft(player2, 990);
                 Canvas.SetTop(player2, 972);
                 Wynik = 0;
+                Wynik2 = 0;
                 
                 czasGry.Tick -= GameLoop;
                 czasGry.Start();
@@ -413,10 +499,20 @@ namespace Projekt
             }
             if (e.Key == Key.Escape && gameOver == true)
             {
-                nazwa = nick.Text;
-                Ranking obecnyWynik = new Ranking(nazwa, Wynik);
+                if (multiplayer == false)
+                {
+                    nazwa = nick.Text;
 
-                obecnyWynik.zapisRankingu(obecnyWynik);
+                    if (nazwa == "")
+                    {
+                        nazwa = "Bezimienny";
+                    }
+
+                    Ranking obecnyWynik = new Ranking(nazwa, Wynik);
+
+                    obecnyWynik.zapisRankingu(obecnyWynik);
+                }
+                
 
                 Application.Current.Shutdown();
             }
@@ -438,7 +534,7 @@ namespace Projekt
             }
             if (e.Key == Key.E && !e.IsRepeat && multiplayer == true)
             {
-                Canvas.Children.Add(pocisk1.PociskGracza(Canvas.GetLeft(player2), Canvas.GetTop(player2), player2.Width));
+                Canvas.Children.Add(pocisk2.PociskGracza(Canvas.GetLeft(player2), Canvas.GetTop(player2), player2.Width, "Gracz2"));
             }
         }
         private void KeyIsUp(object sender, KeyEventArgs e)
@@ -483,7 +579,12 @@ namespace Projekt
             czasGry.Stop();
             uded.Content = "Nie żyjesz! Wciśnij enter do dalszej gry lub ESC aby wyjść!";
             liczbap = 0;
-            nick.Visibility = Visibility.Visible;
+            if (multiplayer == false)
+            {               
+                uded.Visibility = Visibility.Visible;
+                nick.Visibility = Visibility.Visible;
+
+            }           
             uded.Visibility = Visibility.Visible;
         }
 
@@ -571,8 +672,23 @@ namespace Projekt
             Ustawienia.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Visible;
 
+            rywalizacja = false;
             multiplayer = true;
-            Rozpocznij(multiplayer);
+            Rozpocznij(multiplayer, rywalizacja);
+        }
+
+        private void Rywalizacja(object sender, RoutedEventArgs e)
+        {
+            Filmik.Visibility = Visibility.Collapsed;
+            Menu.Visibility = Visibility.Collapsed;
+            Menu2.Visibility = Visibility.Collapsed;
+            TablicaWynikow.Visibility = Visibility.Collapsed;
+            Ustawienia.Visibility = Visibility.Collapsed;
+            Canvas.Visibility = Visibility.Visible;
+
+            rywalizacja = true;
+            multiplayer = true;
+            Rozpocznij(multiplayer, rywalizacja);
         }
 
         private void Gra1(object sender, RoutedEventArgs e)
@@ -584,8 +700,9 @@ namespace Projekt
             Ustawienia.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Visible;
 
+            rywalizacja = false;
             multiplayer = false;
-            Rozpocznij(multiplayer);
+            Rozpocznij(multiplayer, rywalizacja);
         }
         private void Wyjscie(object sender, RoutedEventArgs e)
         {
