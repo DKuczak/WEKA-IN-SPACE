@@ -295,7 +295,7 @@ namespace Projekt
                         itemsToRemove.Add(x);
                     }
                 }
-                else if (x is Rectangle && (string)x.Tag == "przedmiot")
+                else if (x is Rectangle && (string)x.Tag == "apteczka")
                 {
                     Canvas.SetTop(x, Canvas.GetTop(x) + 4);
 
@@ -331,6 +331,44 @@ namespace Projekt
                         }
                     }
                 }
+                else if (x is Rectangle && (string)x.Tag == "PowerUp")
+                {
+                    Canvas.SetTop(x, Canvas.GetTop(x) + 4);
+
+                    if (Canvas.GetTop(x) > 1080)
+                    {
+                        itemsToRemove.Add(x);
+                    }
+                    Rect power = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    if (Hitboxp.IntersectsWith(power))
+                    {
+                        if (pl1.hp > 75)
+                        {
+                            pl1.hp = 100;
+                            itemsToRemove.Add(x);
+                        }
+                        else if (pl1.hp < 100)
+                        {
+                            pl1.hp += 25;
+                            itemsToRemove.Add(x);
+                        }
+                    }
+                    if (Hitboxp2.IntersectsWith(power) && multiplayer == true)
+                    {
+                        if (pl2.hp > 75)
+                        {
+                            pl2.hp = 100;
+                            itemsToRemove.Add(x);
+                        }
+                        else if (pl2.hp < 100)
+                        {
+                            pl2.hp += 25;
+                            itemsToRemove.Add(x);
+                        }
+                    }
+
+
+                }
             }
             foreach (var x in Przeciwnicy)
             {
@@ -341,8 +379,12 @@ namespace Projekt
             }
             if (generator.Next(0, 1000) > 998)
                                 {
-                                    Canvas.Children.Add(apteczka.przedmiot(generator.Next(0,1920), 0));
+                                    Canvas.Children.Add(apteczka.przedmiot(generator.Next(0,1920), 0,"apteczka"));
                                 }
+            if (generator.Next(0, 1000) > 999)
+            {
+                Canvas.Children.Add(apteczka.przedmiot(generator.Next(0, 1920), 0, "PowerUp"));
+            }
             foreach (Rectangle i in itemsToRemove)
             {
                 Canvas.Children.Remove(i);
