@@ -38,7 +38,7 @@
                 </ImageBrush>
             </Grid.Background>
             <Label Content="WEKA IN SPACE" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Width="568" Height="144" FontSize="80" Foreground="White"/>
-            <Button Margin="150,530,1410,480" Content="Gra dla dwóch graczy" Cursor="Hand" Click="Coop"/>
+            <Button Margin="150,530,1410,480" Content="Współpraca" Cursor="Hand" Click="Coop"/>
             <Button Margin="150,670,1410,340" Content="Rywalizacja" Cursor="Hand"/>
             <Button Margin="150,810,1410,200" Content="Pojedynek" Cursor="Hand"/>
             <Button Margin="150,950,1410,60" Content="Cofnij" Cursor="Hand" Click="Cofanie"/>
