@@ -57,6 +57,7 @@ namespace Projekt
             this.szybkość_pocisku = szybkość_pocisku;
         }
         public int getDamage() { return obrażenia; }
+        public int PowerUp() { obrażenia += 10; return obrażenia; }
         public int spdbullet() { return szybkość_pocisku; }
     }
 }

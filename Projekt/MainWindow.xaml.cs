@@ -45,7 +45,7 @@ namespace Projekt
         Gracz pl2 = new Gracz(100);      
         Przeciwnicy boss, p;
         Pocisk pocisk1,ppocisk,pocisk2;
-        Przedmiot apteczka;
+        Przedmiot apteczka, Power;
 
         public MainWindow()
         {
@@ -375,7 +375,7 @@ namespace Projekt
                         itemsToRemove.Add(x);
                     }
                 }
-                else if (x is Rectangle && (string)x.Tag == "przedmiot")
+                else if (x is Rectangle && (string)x.Tag == "apteczka")
                 {
                     Canvas.SetTop(x, Canvas.GetTop(x) + 4);
 
@@ -411,6 +411,26 @@ namespace Projekt
                         }
                     }
                 }
+                else if (x is Rectangle && (string)x.Tag == "PowerUp")
+                {
+                    Canvas.SetTop(x, Canvas.GetTop(x) + 4);
+
+                    if (Canvas.GetTop(x) > 1080)
+                    {
+                        itemsToRemove.Add(x);
+                    }
+                    Rect przedmiot = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    if (Hitboxp.IntersectsWith(przedmiot))
+                    {
+                            itemsToRemove.Add(x);
+                        pocisk1.PowerUp();
+                    }
+                    if (Hitboxp2.IntersectsWith(przedmiot) && multiplayer == true)
+                    {
+                        itemsToRemove.Add(x);
+                        pocisk2.PowerUp();
+                    }
+                }
             }
             foreach (var x in Przeciwnicy)
             {
@@ -421,8 +441,12 @@ namespace Projekt
             }
             if (generator.Next(0, 1000) > 998)
                                 {
-                                    Canvas.Children.Add(apteczka.przedmiot(generator.Next(0,1920), 0));
+                                    Canvas.Children.Add(apteczka.przedmiot(generator.Next(0,1920), 0,"apteczka"));
                                 }
+            if (generator.Next(0, 1000) > 999)
+            {
+                Canvas.Children.Add(Power.przedmiot(generator.Next(0, 1920), 0, "PowerUp"));
+            }
             foreach (Rectangle i in itemsToRemove)
             {
                 Canvas.Children.Remove(i);

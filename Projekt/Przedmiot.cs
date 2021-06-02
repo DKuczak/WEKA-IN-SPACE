@@ -19,11 +19,11 @@ namespace Projekt
     class Przedmiot
     {
         public ImageBrush tekstura = new ImageBrush();
-        public Rectangle przedmiot(double x, double y)
+        public Rectangle przedmiot(double x, double y, string nazwa)
         {
             Rectangle przedmiot = new Rectangle
             {
-                Tag = "przedmiot",
+                Tag = nazwa,
                 Height = 40,
                 Width = 15,
                 Fill = tekstura
