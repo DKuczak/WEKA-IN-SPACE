@@ -38,6 +38,8 @@ namespace Projekt
         bool kierunek = true;
         bool multiplayer = false;
         bool rywalizacja = false;
+        bool smiercGracz1 = false;
+        bool smiercGracz2 = false;
         int o = 1;
         ImageBrush pocisk = new ImageBrush();
         DispatcherTimer czasGry = new DispatcherTimer();
@@ -58,10 +60,14 @@ namespace Projekt
             Filmik.Visibility = Visibility.Visible;
 
         }
-        private void Rozpocznij(bool multiplayer, bool rywalizacja) {
+        private void Rozpocznij(bool multiplayer, bool rywalizacja, bool smiercGracza1, bool smiercGracza2) 
+        {
+
+            player.Visibility = Visibility.Visible;
 
             if (multiplayer == true)
             {
+                
                 player2.Visibility = Visibility.Visible;
                 Życie2.Visibility = Visibility.Visible;
                 pl1.hp = 100;
@@ -147,14 +153,54 @@ namespace Projekt
             {
                 wygeneruj1();
             }
-            if (pl1.hp <= 1)
+            if (pl1.hp <= 1 && rywalizacja == false)
+            {
                 KoniecGry();
-            if (pl2.hp <= 1 && multiplayer == true)
-                KoniecGry();
+            }
+            else if (pl1.hp <= 1 && rywalizacja == true)
+            {
+                smiercGracz1 = true;
+                player.Visibility = Visibility.Hidden;
+                Życie.Content = "Życie pl1: 0";
+                int WynikKoncowy1 = Wynik;
+                TimerTicks.Content = "Wynik pl1: " + WynikKoncowy1;
 
-            Wynik++;
-            Wynik2++;
-            Rect Hitboxp = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
+            }
+            
+                
+            if (pl2.hp <= 1 && multiplayer == true && rywalizacja == false)
+            {
+                KoniecGry();
+            }
+            else if (pl2.hp <= 1 && multiplayer == true && rywalizacja == true)
+            {
+                smiercGracz2 = true;
+                player2.Visibility = Visibility.Hidden;
+                Życie2.Content = "Życie pl2: 0";
+                int WynikKoncowy2 = Wynik2;
+                TimerTicks2.Content = "Wynik pl2: " + WynikKoncowy2;
+
+            }
+                
+
+            if (smiercGracz1 == false)
+            {
+                Wynik++;
+            }
+
+            if (smiercGracz2 == false)
+            {
+                Wynik2++;
+            }
+            if (smiercGracz1 == true && smiercGracz2 == true)
+            {
+                KoniecGry();
+            }
+
+
+
+
+                Rect Hitboxp = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
             Rect Hitboxp2 = new Rect(Canvas.GetLeft(player2), Canvas.GetTop(player2), player2.Width, player2.Height);
             TimerTicks.Content = "Wynik pl1: " + Wynik;
             TimerTicks2.Content = "Wynik pl2: " + Wynik2;
@@ -204,7 +250,7 @@ namespace Projekt
             
             foreach (var x in Canvas.Children.OfType<Rectangle>())
             {
-                if (x is Rectangle && (string)x.Tag == "Gracz1")
+                if (x is Rectangle && (string)x.Tag == "Gracz1" && smiercGracz1 == false)
                 {
                     Canvas.SetTop(x, Canvas.GetTop(x) - pocisk1.spdbullet());
 
@@ -328,13 +374,32 @@ namespace Projekt
                     Przeciwnicy.Add(x);
                     p.poruszanie_przeciwnika(x, p);
                     Rect hitboxprz = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                    if (Hitboxp.IntersectsWith(hitboxprz))
+                    if (Hitboxp.IntersectsWith(hitboxprz) && smiercGracz1 == false && rywalizacja == false)
                     {
                         KoniecGry();
                     }
-                    if (Hitboxp2.IntersectsWith(hitboxprz) && multiplayer == true)
+                    else if (Hitboxp.IntersectsWith(hitboxprz) && smiercGracz1 == false && rywalizacja == true)
                     {
+                        smiercGracz1 = true;
+                        pl1.hp = 0;
+                        player.Visibility = Visibility.Hidden;
+                        Życie.Content = "Życie pl1: 0";
+                        int WynikKoncowy1 = Wynik;
+                        TimerTicks.Content = "Wynik pl1: " + WynikKoncowy1;
+                    }
+                    if (Hitboxp2.IntersectsWith(hitboxprz) && multiplayer == true && smiercGracz2 == false && rywalizacja == false)
+                    {
+
                         KoniecGry();
+                    }
+                    else if (Hitboxp2.IntersectsWith(hitboxprz) && smiercGracz2 == false && rywalizacja == true)
+                    {
+                        pl2.hp = 0;
+                        smiercGracz2 = true;
+                        player2.Visibility = Visibility.Hidden;
+                        Życie2.Content = "Życie pl2: 0";
+                        int WynikKoncowy2 = Wynik2;
+                        TimerTicks.Content = "Wynik pl2: " + WynikKoncowy2;
                     }
                 }
                 else if (x is Rectangle && (string)x.Tag == "Boss")
@@ -342,15 +407,29 @@ namespace Projekt
                     Przeciwnicy.Add(x);
                     boss.RuchBoss(x, boss,ref kierunek);
                     Rect hitboxboss = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                    if (Hitboxp.IntersectsWith(hitboxboss))
+                    if (Hitboxp.IntersectsWith(hitboxboss) && smiercGracz1 == false && rywalizacja == false)
                     {
                         KoniecGry();
-
                     }
-                    if (Hitboxp2.IntersectsWith(hitboxboss) && multiplayer == true)
+                    else if (Hitboxp.IntersectsWith(hitboxboss) && smiercGracz1 == false && rywalizacja == true)
+                    {
+                        smiercGracz1 = true;
+                        player.Visibility = Visibility.Hidden;
+                        Życie.Content = "Życie pl1: 0";
+                        int WynikKoncowy1 = Wynik;
+                        TimerTicks.Content = "Wynik pl1: " + WynikKoncowy1;
+                    }
+                    if (Hitboxp2.IntersectsWith(hitboxboss) && multiplayer == true && smiercGracz2 == false && rywalizacja == false)
                     {
                         KoniecGry();
-
+                    }
+                    else if (Hitboxp2.IntersectsWith(hitboxboss) && smiercGracz2 == false && rywalizacja == true)
+                    {
+                        smiercGracz2 = true;
+                        player2.Visibility = Visibility.Hidden;
+                        Życie2.Content = "Życie pl2: 0";
+                        int WynikKoncowy2 = Wynik2;
+                        TimerTicks.Content = "Wynik pl2: " + WynikKoncowy2;
                     }
                 }
 
@@ -364,12 +443,12 @@ namespace Projekt
                         itemsToRemove.Add(x);
                     }
                     Rect ppocisk = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                    if (Hitboxp.IntersectsWith(ppocisk))
+                    if (Hitboxp.IntersectsWith(ppocisk) && smiercGracz1 == false)
                     {
                         pl1.hp -= 10;
                         itemsToRemove.Add(x);
                     }
-                    if (Hitboxp2.IntersectsWith(ppocisk) && multiplayer == true)
+                    if (Hitboxp2.IntersectsWith(ppocisk) && multiplayer == true && smiercGracz2 == false)
                     {
                         pl2.hp -= 10;
                         itemsToRemove.Add(x);
@@ -384,7 +463,7 @@ namespace Projekt
                         itemsToRemove.Add(x);
                     }
                     Rect przedmiot = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
-                    if (Hitboxp.IntersectsWith(przedmiot))
+                    if (Hitboxp.IntersectsWith(przedmiot) && smiercGracz1 == false)
                     {
                         if (pl1.hp > 75)
                         {
@@ -397,7 +476,7 @@ namespace Projekt
                             itemsToRemove.Add(x);
                         }
                     }
-                    if (Hitboxp2.IntersectsWith(przedmiot) && multiplayer == true)
+                    if (Hitboxp2.IntersectsWith(przedmiot) && multiplayer == true && smiercGracz2 == false)
                     {
                         if (pl2.hp > 75)
                         {
@@ -457,23 +536,23 @@ namespace Projekt
 
         private void KeyIsDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Left)
+            if (e.Key == Key.Left && smiercGracz1 == false)
             {
                 pl1.Lewo = true;
             }
-            if (e.Key == Key.Right)
+            if (e.Key == Key.Right && smiercGracz1 == false)
             {
                 pl1.Prawo = true;
             }
-            if (e.Key == Key.Up)
+            if (e.Key == Key.Up && smiercGracz1 == false)
             {
                 pl1.Góra = true;
             }
-            if (e.Key == Key.Down)
+            if (e.Key == Key.Down && smiercGracz1 == false)
             {
                 pl1.Dół = true;
             }
-            if (e.Key == Key.Space && !e.IsRepeat)
+            if (e.Key == Key.Space && !e.IsRepeat && smiercGracz1 == false)
             {
                 Canvas.Children.Add(pocisk1.PociskGracza(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, "Gracz1"));
             }
@@ -500,7 +579,7 @@ namespace Projekt
                 gameOver = false;
                 foreach (var x in Canvas.Children.OfType<Rectangle>())
                 {
-                    if (x is Rectangle && (string)x.Tag == "Gracz1" || x is Rectangle && (string)x.Tag == "wróg" || x is Rectangle && (string)x.Tag == "ppocisk")
+                    if (x is Rectangle && (string)x.Tag == "Gracz1" || x is Rectangle && (string)x.Tag == "Gracz2" || x is Rectangle && (string)x.Tag == "wróg" || x is Rectangle && (string)x.Tag == "ppocisk")
                     {
                         itemsToRemove.Add(x);
                     }
@@ -539,23 +618,23 @@ namespace Projekt
 
                 Application.Current.Shutdown();
             }
-            if (e.Key == Key.A && multiplayer == true)
+            if (e.Key == Key.A && multiplayer == true && smiercGracz2 == false)
             {
                 pl2.Lewo = true;
             }
-            if (e.Key == Key.D && multiplayer == true)
+            if (e.Key == Key.D && multiplayer == true && smiercGracz2 == false)
             {
                 pl2.Prawo = true;
             }
-            if (e.Key == Key.W && multiplayer == true)
+            if (e.Key == Key.W && multiplayer == true && smiercGracz2 == false)
             {
                 pl2.Góra = true;
             }
-            if (e.Key == Key.S && multiplayer == true)
+            if (e.Key == Key.S && multiplayer == true && smiercGracz2 == false)
             {
                 pl2.Dół = true;
             }
-            if (e.Key == Key.E && !e.IsRepeat && multiplayer == true)
+            if (e.Key == Key.E && !e.IsRepeat && multiplayer == true && smiercGracz2 == false)
             {
                 Canvas.Children.Add(pocisk2.PociskGracza(Canvas.GetLeft(player2), Canvas.GetTop(player2), player2.Width, "Gracz2"));
             }
@@ -643,7 +722,7 @@ namespace Projekt
             Canvas.Visibility = Visibility.Collapsed;
             ranking = pojemnik.odczytRankingu();
 
-            if (ranking == null)
+            if (ranking == null)                
             {
                 nowyWynik.Content = "Niedobrze!!!\nRanking na razie jest pusty! \nSpróbuj go uzupełnić pokonując przeciwników!";
             }
@@ -683,7 +762,9 @@ namespace Projekt
 
             rywalizacja = false;
             multiplayer = true;
-            Rozpocznij(multiplayer, rywalizacja);
+            smiercGracz1 = false;
+            smiercGracz2 = false;
+            Rozpocznij(multiplayer, rywalizacja, smiercGracz1, smiercGracz2);
         }
 
         private void Rywalizacja(object sender, RoutedEventArgs e)
@@ -696,7 +777,9 @@ namespace Projekt
 
             rywalizacja = true;
             multiplayer = true;
-            Rozpocznij(multiplayer, rywalizacja);
+            smiercGracz1 = false;
+            smiercGracz2 = false;
+            Rozpocznij(multiplayer, rywalizacja, smiercGracz1, smiercGracz2);
         }
 
         private void Gra1(object sender, RoutedEventArgs e)
@@ -709,7 +792,9 @@ namespace Projekt
 
             rywalizacja = false;
             multiplayer = false;
-            Rozpocznij(multiplayer, rywalizacja);
+            smiercGracz1 = false;
+            smiercGracz2 = false;
+            Rozpocznij(multiplayer, rywalizacja, smiercGracz1, smiercGracz2);
         }
         private void Wyjscie(object sender, RoutedEventArgs e)
         {
