@@ -21,23 +21,21 @@ namespace Projekt
         public int limit;
         public int left = 10;
         public int wartość;
-
         public Rectangle StwórzPrzeciwnika(string nazwa)
         {
-                Rectangle newEnemy = new Rectangle
-                {
-                    Tag = nazwa,
-                    Height = wielkość,
-                    Width = szerokość,
-                    Fill = tekstura
-                };
-                Canvas.SetTop(newEnemy, 10);
-                Canvas.SetLeft(newEnemy, left);
-                left -= 80;
-
+            Rectangle newEnemy = new Rectangle
+            {
+                Tag = nazwa,
+                Height = wielkość,
+                Width = szerokość,
+                Fill = tekstura
+            };
+            
+            Canvas.SetTop(newEnemy, 10);
+            Canvas.SetLeft(newEnemy, left);
+            left -= 80;
 
             return newEnemy;
-            
         }
         public Rectangle StwórzBossa(string nazwa)
         {
@@ -51,9 +49,7 @@ namespace Projekt
             Canvas.SetTop(newEnemy, 0);
             Canvas.SetLeft(newEnemy, 800);
 
-
             return newEnemy;
-
         }
         public Przeciwnicy(int limit, int szerokość, int wielkość, int szybkość, int wartość, int hp) 
         {
