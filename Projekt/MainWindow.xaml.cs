@@ -52,7 +52,6 @@ namespace Projekt
             InitializeComponent();
             
             Menu.Visibility = Visibility.Collapsed;
-            Menu2.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
             TablicaWynikow.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Collapsed;
@@ -592,20 +591,10 @@ namespace Projekt
         {
             Film.Children.Remove(Filmik);
             Filmik.Visibility = Visibility.Collapsed;
-            Menu2.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
             TablicaWynikow.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Visible;
-        }
-        private void DoPrzodu(object sender, RoutedEventArgs e)
-        {
-            Filmik.Visibility = Visibility.Collapsed;
-            Menu.Visibility = Visibility.Collapsed;
-            Ustawienia.Visibility = Visibility.Collapsed;
-            TablicaWynikow.Visibility = Visibility.Collapsed;
-            Canvas.Visibility = Visibility.Collapsed;
-            Menu2.Visibility = Visibility.Visible;
         }
         private void Cofanie(object sender, RoutedEventArgs e)
         {
@@ -613,7 +602,6 @@ namespace Projekt
             nowyWynik.Content = "";
 
             Filmik.Visibility = Visibility.Collapsed;
-            Menu2.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
             TablicaWynikow.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Collapsed;
@@ -627,7 +615,6 @@ namespace Projekt
 
             Filmik.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Collapsed;
-            Menu2.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Collapsed;
             ranking = pojemnik.odczytRankingu();
@@ -657,7 +644,6 @@ namespace Projekt
         {
             Filmik.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Collapsed;
-            Menu2.Visibility = Visibility.Collapsed;
             TablicaWynikow.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Visible;
@@ -667,7 +653,6 @@ namespace Projekt
         {
             Filmik.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Collapsed;
-            Menu2.Visibility = Visibility.Collapsed;
             TablicaWynikow.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Visible;
@@ -681,7 +666,6 @@ namespace Projekt
         {
             Filmik.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Collapsed;
-            Menu2.Visibility = Visibility.Collapsed;
             TablicaWynikow.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Visible;
@@ -695,7 +679,6 @@ namespace Projekt
         {
             Filmik.Visibility = Visibility.Collapsed;
             Menu.Visibility = Visibility.Collapsed;
-            Menu2.Visibility = Visibility.Collapsed;
             TablicaWynikow.Visibility = Visibility.Collapsed;
             Ustawienia.Visibility = Visibility.Collapsed;
             Canvas.Visibility = Visibility.Visible;
