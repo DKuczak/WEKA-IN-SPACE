@@ -64,5 +64,10 @@ namespace Projekt
             this.wartość = wartość;
             this.hp = hp;
         }
+        public int zwiększ_szybkość()
+        {
+            szybkość++ ;
+            return szybkość;
+        }
     }
 }

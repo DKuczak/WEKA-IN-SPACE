@@ -37,7 +37,7 @@ namespace Projekt
         bool gameOver = false;
         bool kierunek = true;
         bool multiplayer = false;
-
+        int o = 1;
         ImageBrush pocisk = new ImageBrush();
         DispatcherTimer czasGry = new DispatcherTimer();
         Gracz pl1 = new Gracz(100);
@@ -92,7 +92,7 @@ namespace Projekt
 
             Canvas.Focus();
             p = new Przeciwnicy(5, 75, 75, 6, 100, 1);
-            boss = new Przeciwnicy(1, 60, 100, 1, 1000, 500);
+            
 
         }
         private void wygeneruj1()
@@ -109,6 +109,7 @@ namespace Projekt
         }
         private void wygeneruj2()
         {
+            boss = new Przeciwnicy(1, 60, 100, 1, 1000, 500);
             boss.tekstura.ImageSource = new BitmapImage(new Uri("pack://application:,,,/materialy/boss.png"));
             for (int i = 0; i < boss.limit; i++)
             {
@@ -116,10 +117,12 @@ namespace Projekt
 
             }
             liczbap += boss.limit;
+            p.hp += 20;
+            p.zwiększ_szybkość();
         }
         private void GameLoop(object sender, EventArgs e)
         {
-            int o = 1;
+            
            
            if (liczbap==0 && p.limit == 10 * o ) 
             {
@@ -207,9 +210,13 @@ namespace Projekt
                             if (pocisk.IntersectsWith(hitboxprz))
                             {
                                 itemsToRemove.Add(x);
-                                itemsToRemove.Add(y);
-                                liczbap--;
-                                Wynik += p.wartość;
+                                if (p.hp < 0)
+                                {
+                                    itemsToRemove.Add(y);
+                                    liczbap--;
+                                    Wynik += p.wartość;
+                                }
+                                else p.hp -= pocisk1.getDamage();
                                 
                             }
                         }
